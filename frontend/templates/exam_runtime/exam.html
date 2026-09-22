@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Exam - DBMS Mid-Term Assessment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- Exam Top Header -->
+  <header class="exam-header">
+    <div class="d-flex align-items-center gap-3">
+      <span class="fw-bold fs-5 text-dark" id="examTitleHeader">Loading Exam...</span>
+      <span class="badge bg-secondary" id="examSubjectCode">---</span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <!-- Security Status Badge -->
+      <div class="d-flex align-items-center gap-2 px-3 py-1 rounded border bg-white small shadow-sm" id="securityIndicatorBox">
+        <i class="bi bi-shield-check text-success" id="securityIcon"></i>
+        <span class="fw-semibold text-dark">Exam Security: <span class="text-success" id="securityStatusText">Active</span></span>
+        <span class="badge bg-light text-dark border ms-1 fw-bold" id="securityWarningBadge">Warnings: 0/3</span>
+      </div>
+
+      <div class="timer-box" id="timerBox">
+        <i class="bi bi-clock-history"></i>
+        <span id="examTimer">--:--</span>
+      </div>
+      <a href="/exam_runtime/review.html" id="btnFinishReview" class="btn btn-primary-custom">
+        Finish & Review <i class="bi bi-check2-circle"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- Security Warning Alert Banner -->
+  <div class="container-fluid px-4 pt-3 d-none" id="securityAlertContainer">
+    <div class="alert alert-warning border-warning d-flex align-items-center justify-content-between p-3 shadow-sm mb-0 rounded" id="securityAlertBox" role="alert">
+      <div class="d-flex align-items-center gap-3">
+        <i class="bi bi-exclamation-triangle-fill fs-3 text-warning" id="securityAlertIcon"></i>
+        <div>
+          <strong class="d-block" id="securityAlertTitle">Security Warning 1/3</strong>
+          <span class="small text-dark" id="securityAlertMessage">Leaving the exam window is not allowed. Further violations may automatically submit your exam.</span>
+        </div>
+      </div>
+      <button type="button" class="btn-close" aria-label="Close" onclick="dismissSecurityAlert()"></button>
+    </div>
+  </div>
+
+  <!-- Live Exam Main Body -->
+  <div class="container-fluid flex-grow-1 p-4">
+    <div class="row g-4">
+      
+      <!-- Left: Question Panel -->
+      <div class="col-lg-8" id="questionsWrapper">
+        <div class="glass-card p-5 text-center" id="examLoadingCard">
+          <div class="spinner-border text-primary mb-3" role="status"></div>
+          <p class="text-muted mb-0">Loading exam questions, please wait...</p>
+        </div>
+      </div>
+
+      <!-- Right: Navigation Palette & Status -->
+      <div class="col-lg-4">
+        <div class="glass-card p-4 mb-3">
+          <h6 class="fw-bold mb-3 text-dark">Question Navigation Palette</h6>
+          <div class="d-flex gap-2 flex-wrap mb-4" id="paletteContainer">
+            <!-- Dynamically populated buttons -->
+          </div>
+
+          <div class="small text-muted d-flex flex-column gap-2 border-top pt-3">
+            <div class="d-flex align-items-center gap-2">
+              <span class="question-palette-btn answered" style="width:24px; height:24px; font-size: 10px;">✓</span> Answered
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="question-palette-btn review" style="width:24px; height:24px; font-size: 10px;">★</span> Marked for Review
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="question-palette-btn current" style="width:24px; height:24px; font-size: 10px;">•</span> Current Question
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/exam_timer.js"></script>
+  <script src="/static/js/exam_engine.js"></script>
+</body>
+</html>

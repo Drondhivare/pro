@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Performance Analytics - MMCOE ExamPlatform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link ">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link ">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link ">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link active">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search analytics...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Dr. Rajesh Sharma</span>
+                <span class="user-role">Faculty (ID: 2)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Exam Analytics</li>
+          </ol>
+        </nav>
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+          <div>
+            <h3 class="fw-bold m-0" id="reportTitle">Exam Performance Analytics Report</h3>
+            <p class="text-muted small m-0" id="reportSubtitle">Aggregate performance metrics and grade distributions</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm" id="examFilterSelect" style="min-width: 250px;">
+              <option value="">Loading exams...</option>
+            </select>
+            <button class="btn btn-outline-info btn-sm text-nowrap" onclick="window.print()">
+              <i class="bi bi-printer-fill me-1"></i> Export PDF
+            </button>
+          </div>
+        </div>
+
+        <div id="loadingState" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status"></div>
+          <p class="text-muted small mt-2">Loading analytics report...</p>
+        </div>
+
+        <div id="reportContainer" style="display: none;">
+          <div class="row g-3 mb-4">
+            <div class="col-md-3">
+              <div class="glass-card stat-card">
+                <div class="stat-icon blue"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-info">
+                  <h3 id="statCandidates">0</h3>
+                  <p>Registered Candidates</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="glass-card stat-card">
+                <div class="stat-icon emerald"><i class="bi bi-check-circle-fill"></i></div>
+                <div class="stat-info">
+                  <h3 id="statPassRate">0%</h3>
+                  <p>Pass Rate</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="glass-card stat-card">
+                <div class="stat-icon purple"><i class="bi bi-bar-chart-fill"></i></div>
+                <div class="stat-info">
+                  <h3 id="statAvgScore">0</h3>
+                  <p>Average Score</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="glass-card stat-card">
+                <div class="stat-icon amber"><i class="bi bi-award-fill"></i></div>
+                <div class="stat-info">
+                  <h3 id="statHighLow">0 / 0</h3>
+                  <p>Highest / Lowest</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <!-- Grade Distribution -->
+            <div class="col-lg-6">
+              <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill text-info me-2"></i>Grade Distribution Breakdown</h5>
+                <div class="d-flex flex-column gap-3" id="gradeDistributionList">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Exam Performance Breakdown -->
+            <div class="col-lg-6">
+              <div class="glass-card p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="bi bi-bullseye text-warning me-2"></i>Evaluation & Cohort Summary</h5>
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle small m-0">
+                    <tbody id="cohortSummaryTable">
+                      <!-- Rendered dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth(['Faculty', 'Admin']);
+      if (!user) return;
+
+      const examFilter = document.getElementById('examFilterSelect');
+      const loadingState = document.getElementById('loadingState');
+      const reportContainer = document.getElementById('reportContainer');
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let selectedExamId = urlParams.get('examId');
+
+      try {
+        const exams = await apiFetch('/exams');
+        if (!exams || exams.length === 0) {
+          loadingState.innerHTML = '<div class="text-muted p-4">No exams found in the system.</div>';
+          examFilter.innerHTML = '<option value="">No exams</option>';
+          return;
+        }
+
+        examFilter.innerHTML = exams.map(e => `
+          <option value="${e.examId}" ${selectedExamId && selectedExamId == e.examId ? 'selected' : ''}>
+            ${escapeHtml(e.examCode)} - ${escapeHtml(e.examTitle)}
+          </option>
+        `).join('');
+
+        if (!selectedExamId) {
+          selectedExamId = exams[0].examId;
+        }
+
+        await loadReport(selectedExamId);
+
+        examFilter.addEventListener('change', (e) => {
+          const newId = e.target.value;
+          if (newId) {
+            window.history.replaceState(null, '', `?examId=${newId}`);
+            loadReport(newId);
+          }
+        });
+      } catch (err) {
+        loadingState.innerHTML = `<div class="text-danger p-4"><i class="bi bi-exclamation-triangle me-2"></i>Failed to load exams: ${escapeHtml(err.message)}</div>`;
+      }
+
+      async function loadReport(examId) {
+        loadingState.style.display = 'block';
+        reportContainer.style.display = 'none';
+
+        try {
+          const report = await apiFetch(`/exams/${examId}/report`);
+          renderReport(report);
+          loadingState.style.display = 'none';
+          reportContainer.style.display = 'block';
+        } catch (err) {
+          loadingState.innerHTML = `<div class="text-danger p-4"><i class="bi bi-exclamation-triangle me-2"></i>Failed to load report: ${escapeHtml(err.message)}</div>`;
+        }
+      }
+
+      function renderReport(r) {
+        document.getElementById('reportTitle').textContent = `Analytics: ${r.examTitle}`;
+        document.getElementById('reportSubtitle').textContent = `Exam Code: ${r.examCode} • Total Marks: ${r.totalMarks} • Passing Marks: ${r.passingMarks}`;
+
+        document.getElementById('statCandidates').textContent = r.registeredCandidates;
+        document.getElementById('statPassRate').textContent = `${r.passPercentage}%`;
+        document.getElementById('statAvgScore').textContent = `${r.averageScore} / ${r.totalMarks}`;
+        document.getElementById('statHighLow').textContent = `${r.highestScore} / ${r.lowestScore}`;
+
+        // Render Grade Distribution
+        const distContainer = document.getElementById('gradeDistributionList');
+        const grades = ['A+', 'A', 'B', 'C', 'D', 'F'];
+        const colors = {
+          'A+': 'bg-success',
+          'A': 'bg-info',
+          'B': 'bg-primary',
+          'C': 'bg-warning',
+          'D': 'bg-secondary',
+          'F': 'bg-danger'
+        };
+
+        const totalEval = r.evaluatedCount || 0;
+        let gradeHtml = '';
+
+        grades.forEach(g => {
+          const count = (r.gradeDistribution && r.gradeDistribution[g]) || 0;
+          const pct = totalEval > 0 ? ((count / totalEval) * 100).toFixed(1) : 0;
+          gradeHtml += `
+            <div>
+              <div class="d-flex justify-content-between small mb-1">
+                <span><strong>${g} Grade</strong></span>
+                <span class="text-muted fw-bold">${count} Students (${pct}%)</span>
+              </div>
+              <div class="progress bg-light mb-3" style="height: 10px;">
+                <div class="progress-bar ${colors[g] || 'bg-info'}" style="width: ${pct}%;"></div>
+              </div>
+            </div>
+          `;
+        });
+        distContainer.innerHTML = gradeHtml;
+
+        // Render Cohort Summary Table
+        const cohortTable = document.getElementById('cohortSummaryTable');
+        cohortTable.innerHTML = `
+          <tr>
+            <td class="text-muted">Total Registered Candidates</td>
+            <td class="fw-bold text-end">${r.registeredCandidates}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Total Attempts Started</td>
+            <td class="fw-bold text-end">${r.totalAttempts}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Evaluated & Finalized Submissions</td>
+            <td class="fw-bold text-end text-primary">${r.evaluatedCount}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Candidates Passed</td>
+            <td class="fw-bold text-end text-success">${r.passedCount} (${r.passPercentage}%)</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Candidates Failed</td>
+            <td class="fw-bold text-end text-danger">${r.failedCount}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Highest Score Obtained</td>
+            <td class="fw-bold text-end text-success">${r.highestScore} / ${r.totalMarks}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Lowest Score Obtained</td>
+            <td class="fw-bold text-end text-danger">${r.lowestScore} / ${r.totalMarks}</td>
+          </tr>
+          <tr>
+            <td class="text-muted">Class Average Score</td>
+            <td class="fw-bold text-end text-info">${r.averageScore} / ${r.totalMarks}</td>
+          </tr>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

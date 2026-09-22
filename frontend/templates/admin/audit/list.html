@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security & Audit Logs - MMCOE Admin Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Administrator Portal</div>
+        <div class="nav-item">
+          <a href="/admin/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/users/list.html" class="nav-link active">
+            <i class="bi bi-people-fill"></i>
+            <span>User Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/roles/permissions.html" class="nav-link ">
+            <i class="bi bi-shield-lock-fill"></i>
+            <span>RBAC Matrix</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/system/metrics.html" class="nav-link ">
+            <i class="bi bi-cpu-fill"></i>
+            <span>System Health & Flags</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search audit logs...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--rose);">A</div>
+              <div class="user-info">
+                <span class="user-name">System Administrator</span>
+                <span class="user-role">Super Admin (ID: 1)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/admin/dashboard.html">Admin</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Audit Trail</li>
+          </ol>
+        </nav>
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+          <div>
+            <h3 class="fw-bold m-0">Security & Activity Audit Logs (AuditLog Table)</h3>
+            <p class="text-muted small m-0">Immutable records of system actions, entity changes, and IP addresses</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm" id="entityFilter" style="width: 160px;">
+              <option value="">All Entities</option>
+              <option value="User">User</option>
+              <option value="Exam">Exam</option>
+              <option value="Question">Question</option>
+              <option value="Evaluation">Evaluation</option>
+              <option value="Subject">Subject</option>
+              <option value="RolePermission">RolePermission</option>
+              <option value="SystemConfiguration">SystemConfig</option>
+            </select>
+            <span class="badge bg-success px-3 py-2"><i class="bi bi-shield-check me-1"></i> IMMUTABLE</span>
+          </div>
+        </div>
+
+        <div class="glass-card p-4">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle small">
+              <thead>
+                <tr class="text-muted">
+                  <th>Log ID</th>
+                  <th>Timestamp</th>
+                  <th>User</th>
+                  <th>Entity</th>
+                  <th>Action</th>
+                  <th>IP Address</th>
+                  <th>Audit Details (Diff / Payload)</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <tr>
+                  <td colspan="7" class="text-center py-4 text-muted">
+                    <span class="spinner-border spinner-border-sm me-2"></span>Loading audit logs...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth(['Admin']);
+      if (!user) return;
+
+      const tbody = document.getElementById('auditTableBody');
+      const searchInput = document.querySelector('.navbar-search input');
+      const entityFilter = document.getElementById('entityFilter');
+      let allLogs = [];
+
+      async function loadAuditLogs(entity = '') {
+        try {
+          const url = entity ? `/audit-logs?entityName=${encodeURIComponent(entity)}` : '/audit-logs';
+          allLogs = await apiFetch(url);
+          renderLogs(allLogs);
+        } catch (err) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">${escapeHtml(err.message)}</td></tr>`;
+        }
+      }
+
+      await loadAuditLogs();
+
+      if (entityFilter) {
+        entityFilter.addEventListener('change', (e) => {
+          loadAuditLogs(e.target.value);
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const q = e.target.value.toLowerCase().trim();
+          if (!q) {
+            renderLogs(allLogs);
+            return;
+          }
+          const filtered = allLogs.filter(l =>
+            (l.action && l.action.toLowerCase().includes(q)) ||
+            (l.entityName && l.entityName.toLowerCase().includes(q)) ||
+            (l.email && l.email.toLowerCase().includes(q)) ||
+            (l.firstName && l.firstName.toLowerCase().includes(q)) ||
+            (l.lastName && l.lastName.toLowerCase().includes(q)) ||
+            (l.ipAddress && l.ipAddress.toLowerCase().includes(q))
+          );
+          renderLogs(filtered);
+        });
+      }
+
+      function renderLogs(logs) {
+        if (!logs || logs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">No audit trail records found.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = logs.map(l => {
+          const actionColor = l.action === 'CREATE' ? 'bg-success' :
+                             (l.action === 'UPDATE' ? 'bg-primary' :
+                             (l.action === 'DELETE' ? 'bg-danger' :
+                             (l.action === 'FINALIZE' || l.action === 'PUBLISH' ? 'bg-warning text-dark' : 'bg-secondary')));
+
+          const userName = l.firstName ? `${l.firstName} ${l.lastName || ''}` : (l.email || (l.userId ? `User #${l.userId}` : 'System'));
+
+          // Format diff / details
+          let detailsHtml = '-';
+          if (l.newValue || l.oldValue) {
+            const oldStr = l.oldValue ? (typeof l.oldValue === 'object' ? JSON.stringify(l.oldValue) : l.oldValue) : '';
+            const newStr = l.newValue ? (typeof l.newValue === 'object' ? JSON.stringify(l.newValue) : l.newValue) : '';
+            if (oldStr && newStr) {
+              detailsHtml = `<div class="small text-muted text-decoration-line-through">${escapeHtml(oldStr)}</div><div class="small text-emerald fw-bold">${escapeHtml(newStr)}</div>`;
+            } else if (newStr) {
+              detailsHtml = `<div class="small text-emerald font-monospace">${escapeHtml(newStr)}</div>`;
+            } else {
+              detailsHtml = `<div class="small text-danger font-monospace">${escapeHtml(oldStr)}</div>`;
+            }
+          }
+
+          return `
+            <tr>
+              <td><span class="font-monospace text-muted">#${l.logId}</span></td>
+              <td class="text-muted text-nowrap">${formatDate(l.timestamp)}</td>
+              <td class="fw-semibold">${escapeHtml(userName)}</td>
+              <td><span class="badge bg-light text-dark border">${escapeHtml(l.entityName || 'System')}</span></td>
+              <td><span class="badge ${actionColor}">${escapeHtml(l.action || 'EVENT')}</span></td>
+              <td class="font-monospace text-info small">${escapeHtml(l.ipAddress || '127.0.0.1')}</td>
+              <td style="max-width: 320px; overflow-x: auto;">${detailsHtml}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+    });
+  </script>
+</body>
+</html>

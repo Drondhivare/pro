@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Lobby - DBMS Mid-Term Assessment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="d-flex align-items-center justify-content-center min-vh-100 p-3">
+
+  <div class="glass-card p-4 p-md-5" style="max-width: 650px; width: 100%;">
+    <div class="text-center mb-4">
+      <span class="status-badge badge-active mb-2">ELIGIBLE & READY</span>
+      <h3 class="fw-bold m-0 text-dark">EXAM-DBMS-MID</h3>
+      <p class="text-muted">DBMS Mid-Term Assessment &bull; CS101</p>
+    </div>
+
+    <div class="p-3 rounded border section-bg mb-4">
+      <h6 class="fw-bold text-info mb-2"><i class="bi bi-info-circle me-1"></i> Examination Rules & Instructions</h6>
+      <ul class="small text-muted mb-0 ps-3">
+        <li>Total Duration: <strong>60 Minutes</strong>. Timer starts immediately when you click Start.</li>
+        <li>Total Marks: <strong>100 Marks</strong> (2 Questions).</li>
+        <li>Auto-Submit: Enabled. The system will automatically submit when time expires.</li>
+        <li>Negative Marking: None.</li>
+        <li>Do not refresh or close the browser tab during the test.</li>
+      </ul>
+    </div>
+
+    <div class="form-check mb-4">
+      <input class="form-check-input" type="checkbox" id="agreeRules" required>
+      <label class="form-check-label small text-muted" for="agreeRules">
+        I have read and understood all instructions. I am ready to begin the exam.
+      </label>
+    </div>
+
+    <div class="d-flex gap-3">
+      <a href="/student/dashboard.html" class="btn btn-outline-secondary w-50 py-2">Cancel</a>
+      <button type="button" id="beginExamBtn" class="btn btn-success w-50 py-2 fw-bold" onclick="handleBeginExam()">
+        <i class="bi bi-play-fill me-1"></i> Begin Exam
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    let currentExamId = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!Auth.requireAuth(['Student'])) return;
+
+      const params = new URLSearchParams(window.location.search);
+      currentExamId = params.get('examId');
+
+      if (!currentExamId) {
+        showToast('No exam specified. Redirecting to available exams...', 'warning');
+        setTimeout(() => { window.location.href = '/student/exams/available.html'; }, 1000);
+        return;
+      }
+
+      try {
+        const exam = await apiFetch(`/exams/${currentExamId}`);
+        if (!exam) return;
+
+        document.querySelector('h3.fw-bold').textContent = exam.examCode;
+        document.querySelector('h3.fw-bold + p').textContent = `${exam.examTitle} • ${exam.subjectCode || 'MMCOE'}`;
+
+        const rulesList = document.querySelector('ul.small');
+        if (rulesList) {
+          rulesList.innerHTML = `
+            <li>Total Duration: <strong>${exam.durationMinutes} Minutes</strong>. Timer starts immediately when you click Start.</li>
+            <li>Total Marks: <strong>${parseFloat(exam.totalMarks).toFixed(2)} Marks</strong> (${exam.totalQuestions || 'Assigned'} Questions).</li>
+            <li>Passing Marks: <strong>${parseFloat(exam.passingMarks).toFixed(2)} Marks</strong>.</li>
+            <li>Auto-Submit: <strong>${exam.autoSubmitOnTimeout ? 'Enabled' : 'Disabled'}</strong>. The system will submit automatically when time expires.</li>
+            <li>Do not refresh or close the browser tab during the test.</li>
+          `;
+        }
+
+      } catch (err) {
+        showToast('Failed to load exam details: ' + err.message, 'danger');
+      }
+    });
+
+    async function handleBeginExam() {
+      const agree = document.getElementById('agreeRules');
+      if (!agree.checked) {
+        showToast('Please check the box agreeing to the exam instructions.', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('beginExamBtn');
+      const origHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Starting Attempt...';
+
+      try {
+        let res;
+        try {
+          res = await apiFetch(`/exams/${currentExamId}/attempts/start`, { method: 'POST' });
+        } catch (startErr) {
+          if (startErr.message && startErr.message.toLowerCase().includes('not registered')) {
+            await apiFetch(`/exams/${currentExamId}/register`, { method: 'POST' });
+            res = await apiFetch(`/exams/${currentExamId}/attempts/start`, { method: 'POST' });
+          } else {
+            throw startErr;
+          }
+        }
+        showToast('Exam attempt ready! Loading runtime...', 'success');
+        setTimeout(() => {
+          window.location.href = `/exam_runtime/exam.html?attemptId=${res.attemptId}&examId=${currentExamId}`;
+        }, 400);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+        showToast(err.message || 'Could not start exam attempt', 'danger');
+      }
+    }
+  </script>
+</body>
+</html>

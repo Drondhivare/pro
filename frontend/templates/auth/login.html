@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - MMCOE Online Examination Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <style>
+    body {
+      background: radial-gradient(circle at top right, rgba(139, 21, 43, 0.08), transparent 45%),
+                  radial-gradient(circle at bottom left, rgba(27, 54, 93, 0.08), transparent 45%),
+                  var(--bg-page);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 480px;
+      padding: 2.5rem;
+      border-top: 4px solid var(--mmcoe-maroon);
+    }
+    .role-nav-btn {
+      flex: 1;
+      padding: 0.6rem 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .role-nav-btn:hover {
+      color: var(--text-main);
+      border-color: var(--border-color-light);
+    }
+    .role-nav-btn.active {
+      background: var(--mmcoe-maroon-light);
+      border-color: var(--mmcoe-maroon);
+      color: var(--mmcoe-maroon);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-card auth-card">
+    <div class="text-center mb-4">
+      <div class="d-inline-flex align-items-center justify-content-center bg-light p-3 rounded-circle border mb-3">
+        <i class="bi bi-mortarboard-fill text-danger fs-2"></i>
+      </div>
+      <h3 class="fw-bold mb-1 text-dark">MMCOE ExamPortal</h3>
+      <p class="text-muted small">Marathwada Mitra Mandal's College of Engineering</p>
+    </div>
+
+    <!-- Account Locked Alert (hidden by default) -->
+    <div id="accountLockedAlert" class="alert alert-danger d-none small mb-3">
+      <i class="bi bi-shield-lock-fill me-1"></i> Account locked due to excessive failed login attempts. Contact administrator.
+    </div>
+
+    <!-- Role Quick Switcher -->
+    <div class="mb-4">
+      <label class="form-label small text-muted fw-semibold">Select Role / Demo Account</label>
+      <div class="d-flex gap-2">
+        <button type="button" class="role-nav-btn active" id="btn-student" onclick="setRole('student')">
+          <i class="bi bi-person-fill"></i> Student
+        </button>
+        <button type="button" class="role-nav-btn" id="btn-faculty" onclick="setRole('faculty')">
+          <i class="bi bi-person-badge-fill"></i> Faculty
+        </button>
+        <button type="button" class="role-nav-btn" id="btn-admin" onclick="setRole('admin')">
+          <i class="bi bi-shield-lock-fill"></i> Admin
+        </button>
+      </div>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="mb-3">
+        <label for="email" class="form-label small fw-semibold text-dark">Email Address</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light text-muted"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control form-control-custom" id="email" value="rutuja.student@college.edu" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <label for="password" class="form-label small fw-semibold m-0 text-dark">Password</label>
+          <a href="/auth/forgot_password.html" class="text-info small text-decoration-none">Forgot Password?</a>
+        </div>
+        <div class="input-group">
+          <span class="input-group-text bg-light text-muted"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control form-control-custom" id="password" value="password123" required>
+          <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password', 'passIcon')">
+            <i class="bi bi-eye" id="passIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+          <label class="form-check-label small text-muted" for="rememberMe">Remember me</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary-custom w-100 py-2 justify-content-center fs-6">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In to Portal
+      </button>
+    </form>
+
+    <div class="text-center mt-4 border-top pt-3">
+      <span class="text-muted small">New student?</span>
+      <a href="/auth/register.html" class="text-info small fw-semibold text-decoration-none ms-1">Register Account</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    let currentRole = 'student';
+    let targetUrl = '/student/dashboard.html';
+
+    function setRole(role) {
+      currentRole = role;
+      document.getElementById('btn-student').classList.remove('active');
+      document.getElementById('btn-faculty').classList.remove('active');
+      document.getElementById('btn-admin').classList.remove('active');
+      document.getElementById(`btn-${role}`).classList.add('active');
+
+      const emailInput = document.getElementById('email');
+
+      if (role === 'student') {
+        emailInput.value = 'rutuja.student@college.edu';
+        targetUrl = '/student/dashboard.html';
+      } else if (role === 'faculty') {
+        emailInput.value = 'rajesh.sharma@college.edu';
+        targetUrl = '/faculty/dashboard.html';
+      } else if (role === 'admin') {
+        emailInput.value = 'admin@platform.com';
+        targetUrl = '/admin/dashboard.html';
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const lockedAlert = document.getElementById('accountLockedAlert');
+
+      if (lockedAlert) lockedAlert.classList.add('d-none');
+
+      const originalHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Authenticating...';
+
+      try {
+        const data = await Auth.login(email, password);
+        showToast(`Welcome back, ${data.user.firstName}!`, 'success');
+
+        const role = data.user.role;
+        let dest = '/student/dashboard.html';
+        if (role === 'Faculty') dest = '/faculty/dashboard.html';
+        else if (role === 'Admin') dest = '/admin/dashboard.html';
+
+        setTimeout(() => {
+          window.location.href = dest;
+        }, 400);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHtml;
+
+        if (err.message && err.message.toLowerCase().includes('locked')) {
+          if (lockedAlert) lockedAlert.classList.remove('d-none');
+        } else {
+          showToast(err.message || 'Invalid email or password', 'danger');
+        }
+      }
+    }
+  </script>
+</body>
+</html>

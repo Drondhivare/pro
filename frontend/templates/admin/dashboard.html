@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - MMCOE Online Exam Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Administrator Portal</div>
+        <div class="nav-item">
+          <a href="/admin/dashboard.html" class="nav-link active">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/users/list.html" class="nav-link ">
+            <i class="bi bi-people-fill"></i>
+            <span>User Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/roles/permissions.html" class="nav-link ">
+            <i class="bi bi-shield-lock-fill"></i>
+            <span>RBAC Matrix</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/system/metrics.html" class="nav-link ">
+            <i class="bi bi-cpu-fill"></i>
+            <span>System Health & Flags</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/system/backup.html" class="nav-link ">
+            <i class="bi bi-database-fill-gear"></i>
+            <span>Backup & Restore</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search system configuration, users, audit logs...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--rose);">A</div>
+              <div class="user-info">
+                <span class="user-name">System Administrator</span>
+                <span class="user-role">Super Admin (ID: 1)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Admin Control Center</li>
+          </ol>
+        </nav>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h3 class="fw-bold m-0 text-dark">Platform System Administration</h3>
+            <p class="text-muted small m-0">Global user control, security policies, system diagnostics, and configuration</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="/admin/users/list.html" class="btn btn-outline-info">
+              <i class="bi bi-person-plus-fill"></i> Manage Users
+            </a>
+            <a href="/admin/system/metrics.html" class="btn btn-primary-custom">
+              <i class="bi bi-activity"></i> System Diagnostics
+            </a>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon maroon"><i class="bi bi-people-fill"></i></div>
+              <div class="stat-info">
+                <h3 id="statTotalUsers">0</h3>
+                <p>Total Registered Users</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon navy"><i class="bi bi-shield-check"></i></div>
+              <div class="stat-info">
+                <h3 id="statActiveSessions">0</h3>
+                <p>Active User Sessions</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon emerald"><i class="bi bi-card-checklist"></i></div>
+              <div class="stat-info">
+                <h3 id="statActiveExams">0</h3>
+                <p>Active / Ongoing Exams</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon amber"><i class="bi bi-book-fill"></i></div>
+              <div class="stat-info">
+                <h3 id="statTotalSubjects">0</h3>
+                <p>Academic Subjects</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Recent Audit Logs -->
+          <div class="col-lg-7">
+            <div class="glass-card p-4 mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0 text-dark"><i class="bi bi-journal-text text-info me-2"></i>Security & Audit Trail</h5>
+                <a href="/admin/audit/list.html" class="btn btn-sm btn-outline-secondary">View All Logs</a>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover align-middle small m-0">
+                  <thead>
+                    <tr class="text-muted">
+                      <th>Timestamp</th>
+                      <th>User</th>
+                      <th>Entity</th>
+                      <th>Action</th>
+                      <th>IP</th>
+                    </tr>
+                  </thead>
+                  <tbody id="auditLogsBody">
+                    <tr><td colspan="5" class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm me-2"></span>Loading audit logs...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Quick Action Palette -->
+            <div class="glass-card p-4">
+              <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-grid text-warning me-2"></i>Quick Administrative Actions</h5>
+              <div class="row g-2">
+                <div class="col-md-4 col-sm-6">
+                  <a href="/admin/users/list.html" class="btn btn-outline-secondary text-dark w-100 py-3 text-center">
+                    <i class="bi bi-person-gear fs-4 d-block mb-1 text-info"></i>
+                    <span class="small fw-bold">User Control</span>
+                  </a>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                  <a href="/admin/roles/permissions.html" class="btn btn-outline-secondary text-dark w-100 py-3 text-center">
+                    <i class="bi bi-shield-lock fs-4 d-block mb-1 text-warning"></i>
+                    <span class="small fw-bold">RBAC Matrix</span>
+                  </a>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                  <a href="/admin/sessions/list.html" class="btn btn-outline-secondary text-dark w-100 py-3 text-center">
+                    <i class="bi bi-key-fill fs-4 d-block mb-1 text-primary"></i>
+                    <span class="small fw-bold">Active Sessions</span>
+                  </a>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                  <a href="/admin/system/metrics.html" class="btn btn-outline-secondary text-dark w-100 py-3 text-center">
+                    <i class="bi bi-cpu fs-4 d-block mb-1 text-success"></i>
+                    <span class="small fw-bold">Metrics & Config</span>
+                  </a>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <a href="/admin/system/backup.html" class="btn btn-outline-secondary text-dark w-100 py-3 text-center">
+                    <i class="bi bi-database-fill-gear fs-4 d-block mb-1 text-danger"></i>
+                    <span class="small fw-bold">Database Backup</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Health & Metrics -->
+          <div class="col-lg-5">
+            <div class="glass-card p-4 h-100">
+              <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-speedometer2 text-emerald me-2"></i>User Breakdown by Role</h5>
+
+              <div class="p-3 rounded border section-bg mb-4" id="roleBreakdownContainer">
+                <div class="text-center py-2 text-muted small"><span class="spinner-border spinner-border-sm me-2"></span>Loading stats...</div>
+              </div>
+
+              <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-cpu-fill text-primary me-1"></i>System Snapshot</h6>
+              <div class="p-3 rounded border section-bg">
+                <div class="d-flex justify-content-between align-items-center mb-2 small">
+                  <span class="text-muted">Total Question Bank Items</span>
+                  <span class="fw-bold text-dark" id="statTotalQuestions">0</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2 small">
+                  <span class="text-muted">Total Exams Configured</span>
+                  <span class="fw-bold text-dark" id="statTotalExams">0</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center small">
+                  <span class="text-muted">REST API Health Status</span>
+                  <span class="badge bg-success">HEALTHY</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth(['Admin']);
+      if (!user) return;
+
+      try {
+        const data = await apiFetch('/admin/dashboard');
+
+        document.getElementById('statTotalUsers').textContent = data.totalUsers || 0;
+        document.getElementById('statActiveSessions').textContent = data.activeSessions || 0;
+        document.getElementById('statActiveExams').textContent = data.activeExams || 0;
+        document.getElementById('statTotalSubjects').textContent = data.totalSubjects || 0;
+        document.getElementById('statTotalQuestions').textContent = data.totalQuestions || 0;
+        document.getElementById('statTotalExams').textContent = data.totalExams || 0;
+
+        // Role Breakdown
+        const roleContainer = document.getElementById('roleBreakdownContainer');
+        if (data.userStats && data.userStats.length > 0) {
+          const total = data.totalUsers || 1;
+          roleContainer.innerHTML = data.userStats.map(r => {
+            const count = r.count || 0;
+            const pct = Math.round((count / total) * 100);
+            return `
+              <div class="mb-3">
+                <div class="d-flex justify-content-between small mb-1">
+                  <span class="text-muted">${escapeHtml(r.roleName)}s</span>
+                  <span class="fw-bold text-dark">${count} (${pct}%)</span>
+                </div>
+                <div class="progress bg-light" style="height: 8px;">
+                  <div class="progress-bar ${r.roleName === 'Admin' ? 'bg-danger' : (r.roleName === 'Faculty' ? 'bg-info' : 'bg-primary')}" style="width: ${pct}%;"></div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        } else {
+          roleContainer.innerHTML = '<div class="text-muted small">No user role data available.</div>';
+        }
+
+        // Recent Audit Logs
+        const auditBody = document.getElementById('auditLogsBody');
+        if (data.recentAuditLogs && data.recentAuditLogs.length > 0) {
+          auditBody.innerHTML = data.recentAuditLogs.map(l => {
+            const userName = (l.firstName ? `${l.firstName} ${l.lastName || ''}` : l.email) || 'System';
+            const actionBadge = l.action === 'CREATE' ? 'bg-success' :
+                               (l.action === 'UPDATE' ? 'bg-primary' :
+                               (l.action === 'DELETE' ? 'bg-danger' : 'bg-secondary'));
+            return `
+              <tr>
+                <td class="text-muted text-nowrap">${formatDate(l.timestamp)}</td>
+                <td class="fw-semibold">${escapeHtml(userName)}</td>
+                <td><span class="badge bg-light text-dark border">${escapeHtml(l.entityName || 'System')}</span></td>
+                <td><span class="badge ${actionBadge}">${escapeHtml(l.action || 'LOG')}</span></td>
+                <td class="text-muted small">${escapeHtml(l.ipAddress || '127.0.0.1')}</td>
+              </tr>
+            `;
+          }).join('');
+        } else {
+          auditBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No audit logs recorded yet.</td></tr>';
+        }
+
+      } catch (err) {
+        showToast(err.message || 'Failed to load admin dashboard', 'danger');
+      }
+    });
+  </script>
+</body>
+</html>

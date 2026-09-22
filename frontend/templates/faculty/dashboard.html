@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Dashboard - MMCOE Online Exam Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link active">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link ">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link ">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link ">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link ">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search questions, exams, evaluation queue...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Dr. Rajesh Sharma</span>
+                <span class="user-role">Faculty (ID: 2)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Faculty Dashboard</li>
+          </ol>
+        </nav>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h3 class="fw-bold m-0" id="facultyGreeting">Welcome, Faculty</h3>
+            <p class="text-muted small m-0">Department of Computer Engineering &bull; Online Examination Platform</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="/questions/create.html" class="btn btn-outline-info">
+              <i class="bi bi-plus-circle"></i> Add Question
+            </a>
+            <a href="/exams/create.html" class="btn btn-primary-custom">
+              <i class="bi bi-plus-lg"></i> Create Exam
+            </a>
+          </div>
+        </div>
+
+        <!-- Stat Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon maroon"><i class="bi bi-book-fill"></i></div>
+              <div class="stat-info">
+                <h3 id="statTotalSubjects">--</h3>
+                <p>Academic Subjects</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon blue"><i class="bi bi-question-circle-fill"></i></div>
+              <div class="stat-info">
+                <h3 id="statTotalQuestions">--</h3>
+                <p>Questions Created</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
+              <div class="stat-info">
+                <h3 id="statPendingEvaluations">--</h3>
+                <p>Pending Evaluations</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="glass-card stat-card">
+              <div class="stat-icon emerald"><i class="bi bi-card-checklist"></i></div>
+              <div class="stat-info">
+                <h3 id="statTotalExams">--</h3>
+                <p>Managed Exams</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Pending Evaluations Queue -->
+          <div class="col-lg-7">
+            <div class="glass-card p-4 mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0"><i class="bi bi-pencil-square text-warning me-2"></i>Pending Candidate Evaluations</h5>
+                <a href="/evaluation/pending.html" class="text-info small text-decoration-none">Full Queue &rarr;</a>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover align-middle small m-0">
+                  <thead>
+                    <tr class="text-muted">
+                      <th>Candidate</th>
+                      <th>Exam Code</th>
+                      <th>Submitted</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="facultySubmissionsTable">
+                    <tr>
+                      <td colspan="5" class="text-center text-muted py-3">Loading submissions...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Assigned Subjects & Recent Exams -->
+            <div class="glass-card p-4">
+              <h5 class="fw-bold mb-3"><i class="bi bi-journal-check text-info me-2"></i>Recent Examination Blueprints</h5>
+              <div class="row g-3" id="recentExamsContainer">
+                <div class="col-12 text-center text-muted py-3">Loading recent exams...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Tools & Shortcuts -->
+          <div class="col-lg-5">
+            <div class="glass-card p-4 h-100">
+              <h5 class="fw-bold mb-3"><i class="bi bi-activity text-emerald me-2"></i>Quick Operations</h5>
+              
+              <div class="d-flex flex-column gap-3 mb-4">
+                <a href="/questions/create.html" class="p-3 rounded border section-bg small text-decoration-none d-block">
+                  <div class="d-flex justify-content-between text-info fw-semibold mb-1">
+                    <span><i class="bi bi-plus-circle me-1"></i> New Question</span>
+                    <i class="bi bi-arrow-right"></i>
+                  </div>
+                  <div class="text-muted">Author new MCQ, MSQ, True/False, or Descriptive questions.</div>
+                </a>
+
+                <a href="/exams/create.html" class="p-3 rounded border section-bg small text-decoration-none d-block">
+                  <div class="d-flex justify-content-between text-info fw-semibold mb-1">
+                    <span><i class="bi bi-card-checklist me-1"></i> Create Exam</span>
+                    <i class="bi bi-arrow-right"></i>
+                  </div>
+                  <div class="text-muted">Design, schedule, and assign questions to exams.</div>
+                </a>
+
+                <a href="/evaluation/pending.html" class="p-3 rounded border section-bg small text-decoration-none d-block">
+                  <div class="d-flex justify-content-between text-info fw-semibold mb-1">
+                    <span><i class="bi bi-pencil-square me-1"></i> Evaluation Queue</span>
+                    <i class="bi bi-arrow-right"></i>
+                  </div>
+                  <div class="text-muted">Grade descriptive responses and publish final marks.</div>
+                </a>
+              </div>
+
+              <div class="p-3 rounded border section-bg">
+                <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-gear-fill me-1 text-warning"></i>Analytics & Reports</h6>
+                <div class="d-grid gap-2">
+                  <a href="/reports/exam_report.html" class="btn btn-sm btn-outline-info text-start"><i class="bi bi-bar-chart me-2"></i> View Exam Performance Analytics</a>
+                  <a href="/subjects/list.html" class="btn btn-sm btn-outline-secondary text-start"><i class="bi bi-book me-2"></i> Manage Subject Curriculum</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth('Faculty', 'Admin');
+      if (!user) return;
+
+      const greetingEl = document.getElementById('facultyGreeting');
+      if (greetingEl) {
+        greetingEl.innerText = `Welcome, ${user.firstName} ${user.lastName}`;
+      }
+
+      await loadFacultyDashboard();
+    });
+
+    async function loadFacultyDashboard() {
+      try {
+        const res = await apiFetch('/faculty/dashboard');
+        if (!res.ok) {
+          alert('Failed to load faculty dashboard metrics.');
+          return;
+        }
+
+        const data = await res.json();
+
+        // Stat cards
+        document.getElementById('statTotalSubjects').innerText = data.totalSubjects != null ? data.totalSubjects : 0;
+        document.getElementById('statTotalQuestions').innerText = data.totalQuestions != null ? data.totalQuestions : 0;
+        document.getElementById('statPendingEvaluations').innerText = data.pendingEvaluations != null ? data.pendingEvaluations : 0;
+        document.getElementById('statTotalExams').innerText = data.totalExams != null ? data.totalExams : 0;
+
+        // Pending submissions table
+        const tbody = document.getElementById('facultySubmissionsTable');
+        const submissions = data.recentSubmissions || [];
+
+        if (submissions.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">No pending candidate evaluations at this moment.</td></tr>`;
+        } else {
+          tbody.innerHTML = submissions.map(s => {
+            const timeStr = s.submittedAt ? new Date(s.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--';
+            return `
+              <tr>
+                <td class="fw-semibold">${escapeHtml(s.firstName)} ${escapeHtml(s.lastName)}</td>
+                <td><span class="font-monospace">${escapeHtml(s.examCode)}</span></td>
+                <td class="text-muted">${timeStr}</td>
+                <td><span class="badge bg-warning text-dark">${escapeHtml(s.status)}</span></td>
+                <td>
+                  <a href="/evaluation/evaluate.html?attemptId=${s.attemptId}" class="btn btn-sm btn-outline-success">
+                    Evaluate
+                  </a>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        // Recent exams
+        const examsContainer = document.getElementById('recentExamsContainer');
+        const exams = data.recentExams || [];
+
+        if (exams.length === 0) {
+          examsContainer.innerHTML = `<div class="col-12 text-center text-muted py-3">No exams found. Click 'Create Exam' to get started.</div>`;
+        } else {
+          examsContainer.innerHTML = exams.map(e => `
+            <div class="col-md-6">
+              <div class="p-3 rounded border section-bg">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="font-monospace text-info small">${escapeHtml(e.examCode)}</span>
+                  <span class="badge ${e.status === 'PUBLISHED' ? 'bg-success' : 'bg-secondary'}">${escapeHtml(e.status)}</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1">${escapeHtml(e.examTitle)}</h6>
+                <small class="text-muted">${e.registeredCount || 0} Registered &bull; ${escapeHtml(e.subjectName || '')}</small>
+                <div class="mt-2">
+                  <a href="/exams/detail.html?id=${e.examId}" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size: 0.75rem;">Manage</a>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+      } catch (err) {
+        console.error('Error loading faculty dashboard:', err);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Edit Question - Question Bank Repository</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link active">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link ">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link ">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link ">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search questions...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Faculty</span>
+                <span class="user-role">Faculty</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/questions/list.html">Question Bank</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="breadcrumbEditLabel">Edit Question</li>
+          </ol>
+        </nav>
+
+        <div class="mb-4">
+          <h3 class="fw-bold m-0">Edit Question Definition</h3>
+          <p class="text-muted small m-0" id="editQuestionSubtitle">Loading question details...</p>
+        </div>
+
+        <div class="glass-card p-4 p-md-5" style="max-width: 850px;">
+          <form id="editQuestionForm">
+
+            <!-- Row 1: Category + Difficulty -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold" for="categorySelect">Question Category</label>
+                <select class="form-select form-control-custom" id="categorySelect" required>
+                  <option value="">Loading categories...</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold" for="difficultySelect">Difficulty Level</label>
+                <select class="form-select form-control-custom" id="difficultySelect" required>
+                  <option value="">Loading difficulties...</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 2: Type + Marks + Time -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold" for="qTypeSelect">Question Type</label>
+                <select class="form-select form-control-custom" id="qTypeSelect" onchange="handleTypeChange()">
+                  <option value="MCQ">MCQ (Single Choice)</option>
+                  <option value="MSQ">MSQ (Multiple Choice)</option>
+                  <option value="TRUE_FALSE">True / False</option>
+                  <option value="DESCRIPTIVE">Descriptive Essay</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold" for="defaultMarks">Default Marks</label>
+                <input type="number" id="defaultMarks" class="form-control form-control-custom" step="0.5" min="0.5" required>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold" for="estimatedTime">Estimated Time (Seconds)</label>
+                <input type="number" id="estimatedTime" class="form-control form-control-custom" min="10" required>
+              </div>
+            </div>
+
+            <!-- Question Statement -->
+            <div class="mb-4">
+              <label class="form-label small fw-semibold" for="questionText">Question Statement <span class="text-danger">*</span></label>
+              <textarea id="questionText" class="form-control form-control-custom" rows="3" placeholder="Enter question statement..." required></textarea>
+            </div>
+
+            <!-- Model Answer (DESCRIPTIVE only, hidden by default) -->
+            <div id="modelAnswerWrapper" class="mb-4 d-none">
+              <label class="form-label small fw-semibold" for="modelAnswer">
+                Model Answer / Expected Answer <span class="text-danger">*</span>
+              </label>
+              <textarea id="modelAnswer" class="form-control form-control-custom" rows="5"
+                        placeholder="Enter the expected/model answer for this descriptive question..."></textarea>
+            </div>
+
+            <!-- Options Section (hidden for DESCRIPTIVE) -->
+            <div id="optionsWrapper" class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label small fw-semibold m-0">
+                  <i class="bi bi-list-task me-1 text-info"></i> Options
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-info" id="btnAddOption" onclick="addNewOption()">
+                  <i class="bi bi-plus-lg"></i> Add Option
+                </button>
+              </div>
+              <div id="optionsContainer">
+                <!-- Option rows are injected here by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Solution Explanation (hidden for DESCRIPTIVE) -->
+            <div id="explanationWrapper" class="mb-4">
+              <label class="form-label small fw-semibold" for="explanation">Solution Explanation</label>
+              <textarea id="explanation" class="form-control form-control-custom" rows="2"
+                        placeholder="Optional explanation for correct answer..."></textarea>
+            </div>
+
+            <!-- Submit buttons -->
+            <div class="d-flex gap-2">
+              <button type="submit" id="btnUpdateQuestion" class="btn btn-primary-custom px-4 py-2">
+                <i class="bi bi-save-fill me-1"></i> Update Question
+              </button>
+              <a href="/questions/list.html" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    // ──────────────────────────────────────────────────────────────
+    // Edit Question Page — Self-contained option management
+    // Relies on: apiFetch, Auth, escapeHtml, showToast from app.js
+    // ──────────────────────────────────────────────────────────────
+
+    let questionId = null;
+    let currentQuestion = null;
+
+    // ── Initialise on DOM ready ────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth('Faculty', 'Admin');
+      if (!user) return;
+
+      const params = new URLSearchParams(window.location.search);
+      questionId = params.get('id');
+
+      if (!questionId) {
+        alert('Invalid question ID. Redirecting to Question Bank.');
+        window.location.href = '/questions/list.html';
+        return;
+      }
+
+      try {
+        await loadQuestionDetails();
+      } catch (err) {
+        console.error('[EditQuestion] Fatal error during load:', err);
+        alert('Failed to load question: ' + (err.message || 'Unknown error'));
+      }
+    });
+
+    // ── Load full question from API ────────────────────────────────
+    async function loadQuestionDetails() {
+      console.log('[EditQuestion] loadQuestionDetails() called for id:', questionId);
+
+      // Load question data and dropdowns in parallel
+      const [q, cats, diffs] = await Promise.all([
+        fetchQuestion(),
+        fetchCategories(),
+        fetchDifficulties()
+      ]);
+
+      if (!q) {
+        alert('Question not found.');
+        window.location.href = '/questions/list.html';
+        return;
+      }
+
+      console.log('[EditQuestion] question data:', q);
+      console.log('[EditQuestion] options from API:', q.options);
+
+      currentQuestion = q;
+
+      // Update breadcrumb and subtitle
+      const breadcrumb = document.getElementById('breadcrumbEditLabel');
+      if (breadcrumb) breadcrumb.textContent = `Edit Question #${q.questionId}`;
+      const subtitle = document.getElementById('editQuestionSubtitle');
+      if (subtitle) subtitle.textContent = `Question ID: #${q.questionId} • Type: ${q.questionType} • Category: ${q.categoryName || 'General'}`;
+
+      // Populate category dropdown
+      populateSelect('categorySelect', cats, 'categoryId', 'categoryName', q.categoryId);
+
+      // Populate difficulty dropdown
+      populateSelect('difficultySelect', diffs, 'difficultyLevelId', 'levelName', q.difficultyLevelId);
+
+      // Set question type
+      const qTypeSelect = document.getElementById('qTypeSelect');
+      if (qTypeSelect) {
+        qTypeSelect.value = q.questionType;
+      }
+
+      // Fill basic fields
+      const el = id => document.getElementById(id);
+      el('questionText').value = q.questionText || '';
+      el('defaultMarks').value = parseFloat(q.defaultMarks) || 1;
+      el('estimatedTime').value = q.estimatedTimeSeconds != null ? q.estimatedTimeSeconds : 60;
+      el('explanation').value = q.explanation || '';
+
+      // Render options based on type
+      renderOptionsForType(q.questionType, q.options || [], q.modelAnswer || q.correctAnswer || '');
+
+      // Attach single-choice handler to the options container
+      attachSingleChoiceHandler();
+
+      console.log('[EditQuestion] Page loaded successfully.');
+    }
+
+    // ── Fetch helpers (return plain objects, not wrapped) ──────────
+    async function fetchQuestion() {
+      const res = await apiFetch(`/questions/${questionId}`);
+      // apiFetch may wrap the object with a .json() method — unwrap safely
+      if (res && typeof res.json === 'function' && !Array.isArray(res)) {
+        // Check if it's a real Response or the fake wrapper
+        const data = await res.json();
+        return data && data.questionId ? data : res;
+      }
+      return Array.isArray(res) ? res[0] : res;
+    }
+
+    async function fetchCategories() {
+      const res = await apiFetch('/question-categories');
+      return Array.isArray(res) ? res : [];
+    }
+
+    async function fetchDifficulties() {
+      const res = await apiFetch('/difficulty-levels');
+      return Array.isArray(res) ? res : [];
+    }
+
+    // ── Populate a <select> element ───────────────────────────────
+    function populateSelect(selectId, items, valueField, labelField, selectedValue) {
+      const sel = document.getElementById(selectId);
+      if (!sel || !Array.isArray(items)) return;
+      sel.innerHTML = items.map(item =>
+        `<option value="${item[valueField]}">${escapeHtml(item[labelField])}</option>`
+      ).join('');
+      if (selectedValue != null) {
+        sel.value = String(selectedValue);
+      }
+    }
+
+    // ── Render options based on question type ─────────────────────
+    function renderOptionsForType(qType, options, modelAnswerText) {
+      const container = document.getElementById('optionsContainer');
+      const optionsWrapper = document.getElementById('optionsWrapper');
+      const btnAddOption = document.getElementById('btnAddOption');
+      const modelAnswerWrapper = document.getElementById('modelAnswerWrapper');
+      const explanationWrapper = document.getElementById('explanationWrapper');
+
+      if (!container) {
+        console.error('[EditQuestion] #optionsContainer not found in DOM!');
+        return;
+      }
+
+      // Clear existing option rows
+      container.innerHTML = '';
+
+      if (qType === 'DESCRIPTIVE') {
+        if (optionsWrapper) optionsWrapper.classList.add('d-none');
+        if (modelAnswerWrapper) modelAnswerWrapper.classList.remove('d-none');
+        if (explanationWrapper) explanationWrapper.classList.add('d-none');
+        const modelAnswerEl = document.getElementById('modelAnswer');
+        if (modelAnswerEl) modelAnswerEl.value = modelAnswerText;
+
+      } else if (qType === 'TRUE_FALSE') {
+        if (optionsWrapper) optionsWrapper.classList.remove('d-none');
+        if (btnAddOption) { btnAddOption.classList.add('d-none'); btnAddOption.disabled = true; }
+        if (modelAnswerWrapper) modelAnswerWrapper.classList.add('d-none');
+        if (explanationWrapper) explanationWrapper.classList.remove('d-none');
+
+        // Render True/False options (locked text, editable correct checkbox)
+        if (options.length === 2) {
+          options.forEach(opt => appendOptionRow(container, opt.optionText, Boolean(opt.isCorrect), true, opt.optionId));
+        } else {
+          appendOptionRow(container, 'True', true, true, null);
+          appendOptionRow(container, 'False', false, true, null);
+        }
+
+      } else {
+        // MCQ or MSQ
+        if (optionsWrapper) optionsWrapper.classList.remove('d-none');
+        if (btnAddOption) { btnAddOption.classList.remove('d-none'); btnAddOption.disabled = false; }
+        if (modelAnswerWrapper) modelAnswerWrapper.classList.add('d-none');
+        if (explanationWrapper) explanationWrapper.classList.remove('d-none');
+
+        if (options.length > 0) {
+          console.log('[EditQuestion] Rendering', options.length, 'existing options');
+          options.forEach(opt => {
+            appendOptionRow(container, opt.optionText, Boolean(opt.isCorrect), false, opt.optionId);
+          });
+        } else {
+          console.log('[EditQuestion] No options from API, building defaults');
+          appendOptionRow(container, '', true, false, null);
+          appendOptionRow(container, '', false, false, null);
+          appendOptionRow(container, '', false, false, null);
+          appendOptionRow(container, '', false, false, null);
+        }
+
+        console.log('[EditQuestion] optionsContainer children after render:', container.children.length);
+      }
+    }
+
+    // ── Append a single option row to the container ───────────────
+    function appendOptionRow(container, text, isCorrect, isLocked, optionId) {
+      const idx = container.children.length;
+      const letter = String.fromCharCode(65 + Math.min(idx, 25)); // A, B, C...
+
+      const div = document.createElement('div');
+      div.className = 'input-group mb-2 option-row';
+      if (optionId != null) {
+        div.dataset.optionId = String(optionId);
+      }
+
+      // Build inner HTML — use safe escaping for option text
+      const safeText = (text || '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      div.innerHTML = `
+        <span class="input-group-text bg-light text-dark font-monospace">${letter}</span>
+        <input
+          type="text"
+          class="form-control form-control-custom option-text-input"
+          placeholder="Option ${letter} text"
+          value="${safeText}"
+          ${isLocked ? 'readonly' : ''}
+          required
+        >
+        <div class="input-group-text bg-light">
+          <input
+            class="form-check-input mt-0 option-correct-check"
+            type="checkbox"
+            title="Mark as correct answer"
+            ${isCorrect ? 'checked' : ''}
+          >
+          <span class="ms-1 small text-dark">Correct</span>
+        </div>
+        ${isLocked ? '' : `
+        <button
+          class="btn btn-outline-danger btn-remove-option"
+          type="button"
+          title="Remove option"
+          onclick="removeOptionRow(this)"
+        ><i class="bi bi-trash"></i></button>
+        `}
+      `;
+
+      container.appendChild(div);
+    }
+
+    // ── Reindex option letters after add/remove ───────────────────
+    function reindexOptionRows() {
+      const container = document.getElementById('optionsContainer');
+      if (!container) return;
+      Array.from(container.children).forEach((row, idx) => {
+        const letter = String.fromCharCode(65 + Math.min(idx, 25));
+        const span = row.querySelector('.font-monospace');
+        if (span) span.textContent = letter;
+        const input = row.querySelector('.option-text-input');
+        if (input && !input.readOnly) input.placeholder = `Option ${letter} text`;
+      });
+    }
+
+    // ── Add a new blank option (+ Add Option button) ──────────────
+    function addNewOption() {
+      const qType = document.getElementById('qTypeSelect')?.value;
+      if (qType === 'TRUE_FALSE') return;
+      const container = document.getElementById('optionsContainer');
+      if (!container) return;
+      appendOptionRow(container, '', false, false, null);
+    }
+
+    // ── Remove an option row ──────────────────────────────────────
+    function removeOptionRow(btn) {
+      const row = btn.closest('.option-row');
+      if (!row) return;
+      const container = document.getElementById('optionsContainer');
+      if (!container) return;
+      if (container.children.length <= 2) {
+        showToast('A question must have at least 2 options!', 'warning');
+        return;
+      }
+      row.remove();
+      reindexOptionRows();
+    }
+
+    // ── Single-choice enforcement (MCQ / TRUE_FALSE) ──────────────
+    function attachSingleChoiceHandler() {
+      const container = document.getElementById('optionsContainer');
+      if (!container || container.dataset.singleChoiceBound === 'true') return;
+      container.dataset.singleChoiceBound = 'true';
+      container.addEventListener('change', e => {
+        if (e.target.matches('.option-correct-check')) {
+          const qType = document.getElementById('qTypeSelect')?.value;
+          if (qType === 'MCQ' || qType === 'TRUE_FALSE') {
+            if (e.target.checked) {
+              container.querySelectorAll('.option-correct-check').forEach(cb => {
+                if (cb !== e.target) cb.checked = false;
+              });
+            } else if (qType === 'TRUE_FALSE') {
+              // Ensure at least one remains checked
+              const all = Array.from(container.querySelectorAll('.option-correct-check'));
+              const other = all.find(cb => cb !== e.target);
+              if (other) other.checked = true;
+              else e.target.checked = true;
+            }
+          }
+        }
+      });
+    }
+
+    // ── Question Type change handler ──────────────────────────────
+    function handleTypeChange() {
+      const qTypeSelect = document.getElementById('qTypeSelect');
+      if (!qTypeSelect) return;
+      const newType = qTypeSelect.value;
+      const container = document.getElementById('optionsContainer');
+      const currentOptions = [];
+
+      // Harvest existing non-True/False options to preserve them when switching
+      if (container) {
+        Array.from(container.querySelectorAll('.option-row')).forEach(row => {
+          const textEl = row.querySelector('.option-text-input');
+          const checkEl = row.querySelector('.option-correct-check');
+          const optionId = row.dataset.optionId ? parseInt(row.dataset.optionId, 10) : null;
+          if (textEl && !textEl.readOnly) {
+            currentOptions.push({
+              optionText: textEl.value,
+              isCorrect: checkEl ? checkEl.checked : false,
+              optionId: optionId
+            });
+          }
+        });
+      }
+
+      if (newType === 'DESCRIPTIVE') {
+        renderOptionsForType('DESCRIPTIVE', [], '');
+      } else if (newType === 'TRUE_FALSE') {
+        renderOptionsForType('TRUE_FALSE', [], '');
+      } else if (newType === 'MCQ') {
+        // Rebuild: keep existing editable options, ensure exactly 1 correct
+        const opts = currentOptions.length >= 2 ? currentOptions : [
+          {optionText: '', isCorrect: true, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null}
+        ];
+        // Enforce single correct for MCQ
+        let firstCorrect = false;
+        opts.forEach(o => {
+          if (o.isCorrect && !firstCorrect) firstCorrect = true;
+          else if (o.isCorrect) o.isCorrect = false;
+        });
+        if (!firstCorrect && opts.length > 0) opts[0].isCorrect = true;
+        renderOptionsForType('MCQ', opts, '');
+        attachSingleChoiceHandler();
+      } else if (newType === 'MSQ') {
+        const opts = currentOptions.length >= 2 ? currentOptions : [
+          {optionText: '', isCorrect: false, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null},
+          {optionText: '', isCorrect: false, optionId: null}
+        ];
+        renderOptionsForType('MSQ', opts, '');
+      }
+    }
+
+    // ── Load dropdowns helper ─────────────────────────────────────
+    async function loadDropdowns(selectedCategoryId, selectedDifficultyId) {
+      try {
+        const [cats, diffs] = await Promise.all([fetchCategories(), fetchDifficulties()]);
+        populateSelect('categorySelect', cats, 'categoryId', 'categoryName', selectedCategoryId);
+        populateSelect('difficultySelect', diffs, 'difficultyLevelId', 'levelName', selectedDifficultyId);
+      } catch (err) {
+        console.error('[EditQuestion] Error loading dropdowns:', err);
+      }
+    }
+
+    // ── Form submit ───────────────────────────────────────────────
+    document.getElementById('editQuestionForm').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const btn = document.getElementById('btnUpdateQuestion');
+      const resetBtn = () => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-save-fill me-1"></i> Update Question';
+      };
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Updating...';
+
+      // Validate category
+      const catSelect = document.getElementById('categorySelect');
+      const categoryId = catSelect ? parseInt(catSelect.value, 10) : NaN;
+      if (!catSelect?.value || isNaN(categoryId)) {
+        showToast('Please select a valid question category.', 'warning');
+        resetBtn(); return;
+      }
+
+      // Validate difficulty
+      const diffSelect = document.getElementById('difficultySelect');
+      const difficultyLevelId = diffSelect ? parseInt(diffSelect.value, 10) : NaN;
+      if (!diffSelect?.value || isNaN(difficultyLevelId)) {
+        showToast('Please select a valid difficulty level.', 'warning');
+        resetBtn(); return;
+      }
+
+      const qType = document.getElementById('qTypeSelect')?.value || 'MCQ';
+
+      // Validate question text
+      const questionText = document.getElementById('questionText').value.trim();
+      if (!questionText) {
+        showToast('Question statement cannot be empty.', 'warning');
+        resetBtn(); return;
+      }
+
+      // Validate marks
+      const defaultMarks = parseFloat(document.getElementById('defaultMarks').value);
+      if (isNaN(defaultMarks) || defaultMarks <= 0) {
+        showToast('Default marks must be a positive number.', 'warning');
+        resetBtn(); return;
+      }
+
+      // Validate time
+      const estimatedTime = parseInt(document.getElementById('estimatedTime').value, 10);
+      if (isNaN(estimatedTime) || estimatedTime <= 0) {
+        showToast('Estimated time must be a positive number of seconds.', 'warning');
+        resetBtn(); return;
+      }
+
+      // Build options payload
+      let options = [];
+      let modelAnswerText = null;
+
+      if (qType === 'DESCRIPTIVE') {
+        modelAnswerText = document.getElementById('modelAnswer').value.trim();
+        if (!modelAnswerText) {
+          showToast('Model Answer / Expected Answer is required for descriptive questions.', 'warning');
+          resetBtn(); return;
+        }
+      } else {
+        const rows = document.querySelectorAll('#optionsContainer .option-row');
+        let validationFailed = false;
+
+        rows.forEach((row, i) => {
+          if (validationFailed) return;
+          const textInput = row.querySelector('.option-text-input');
+          const correctCheck = row.querySelector('.option-correct-check');
+          const text = textInput ? textInput.value.trim() : '';
+
+          if (!text) {
+            showToast(`Option ${String.fromCharCode(65 + i)} text cannot be blank.`, 'warning');
+            validationFailed = true;
+            return;
+          }
+
+          const optObj = {
+            optionText: text,
+            isCorrect: correctCheck ? correctCheck.checked : false,
+            optionOrder: i + 1
+          };
+
+          // Preserve existing optionId for UPDATE (vs INSERT for new ones)
+          if (row.dataset.optionId) {
+            const parsedId = parseInt(row.dataset.optionId, 10);
+            if (!isNaN(parsedId)) optObj.optionId = parsedId;
+          }
+
+          options.push(optObj);
+        });
+
+        if (options.length === 0 && !validationFailed) {
+          showToast('Please add at least one option.', 'warning');
+          resetBtn(); return;
+        }
+
+        if (validationFailed) { resetBtn(); return; }
+
+        // Type-specific validation
+        if (qType === 'MCQ') {
+          if (options.length < 2) {
+            showToast('MCQ questions must have at least 2 options.', 'warning');
+            resetBtn(); return;
+          }
+          const correctCount = options.filter(o => o.isCorrect).length;
+          if (correctCount !== 1) {
+            showToast('MCQ questions must have exactly 1 correct option selected.', 'warning');
+            resetBtn(); return;
+          }
+        } else if (qType === 'MSQ') {
+          if (options.length < 2) {
+            showToast('MSQ questions must have at least 2 options.', 'warning');
+            resetBtn(); return;
+          }
+          if (options.filter(o => o.isCorrect).length < 1) {
+            showToast('MSQ questions must have at least 1 correct option selected.', 'warning');
+            resetBtn(); return;
+          }
+        } else if (qType === 'TRUE_FALSE') {
+          if (options.length !== 2) {
+            showToast('True/False questions must have exactly 2 options.', 'warning');
+            resetBtn(); return;
+          }
+          const texts = options.map(o => o.optionText.toLowerCase());
+          if (!texts.includes('true') || !texts.includes('false')) {
+            showToast('True/False options must be "True" and "False".', 'warning');
+            resetBtn(); return;
+          }
+          if (options.filter(o => o.isCorrect).length !== 1) {
+            showToast('True/False questions must have exactly 1 correct option selected.', 'warning');
+            resetBtn(); return;
+          }
+        }
+      }
+
+      const payload = {
+        categoryId,
+        difficultyLevelId,
+        questionType: qType,
+        questionText,
+        defaultMarks,
+        estimatedTimeSeconds: estimatedTime,
+        explanation: qType === 'DESCRIPTIVE' ? null : (document.getElementById('explanation').value.trim() || null),
+        modelAnswer: qType === 'DESCRIPTIVE' ? modelAnswerText : null,
+        correctAnswer: qType === 'DESCRIPTIVE' ? modelAnswerText : null,
+        options
+      };
+
+      console.log('[EditQuestion] Submitting payload:', JSON.stringify(payload, null, 2));
+
+      try {
+        await apiFetch(`/questions/${questionId}`, {
+          method: 'PUT',
+          body: JSON.stringify(payload)
+        });
+        showToast('Question updated successfully!', 'success');
+        setTimeout(() => { window.location.href = '/questions/list.html'; }, 800);
+      } catch (err) {
+        console.error('[EditQuestion] Error updating question:', err);
+        const msg = (err.data && (err.data.error || err.data.message)) || err.message || 'Failed to update question.';
+        showToast('Error: ' + msg, 'danger');
+        resetBtn();
+      }
+    });
+  </script>
+</body>
+</html>

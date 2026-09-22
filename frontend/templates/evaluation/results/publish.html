@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Results - MMCOE Faculty Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link ">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link ">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link active">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link ">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search results...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Dr. Rajesh Sharma</span>
+                <span class="user-role">Faculty (ID: 2)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/evaluation/results/list.html">Results Management</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Publish Results</li>
+          </ol>
+        </nav>
+
+        <div class="mb-4">
+          <h3 class="fw-bold m-0">Publish Finalized Examination Marksheets</h3>
+          <p class="text-muted small m-0">Bulk publish scorecards to student portals and notify candidates via Notification Service</p>
+        </div>
+
+        <div class="glass-card p-4" style="max-width: 700px;">
+          <form id="publishForm">
+            <div class="mb-3">
+              <label class="form-label small fw-semibold" for="examSelect">Select Exam</label>
+              <select class="form-select form-control-custom" id="examSelect" required>
+                <option value="">Loading exams...</option>
+              </select>
+              <div id="examMeta" class="mt-2 text-muted small"></div>
+            </div>
+
+            <div class="form-check form-switch mb-4">
+              <input class="form-check-input" type="checkbox" id="notifyCheck" checked>
+              <label class="form-check-label small text-muted" for="notifyCheck">Send automated result notification to enrolled candidates</label>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" id="submitBtn" class="btn btn-success px-4 py-2 fw-bold">
+                <i class="bi bi-send-fill me-1"></i> Publish All Scorecards
+              </button>
+              <a href="/evaluation/results/list.html" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth(['Faculty', 'Admin']);
+      if (!user) return;
+
+      const examSelect = document.getElementById('examSelect');
+      const examMeta = document.getElementById('examMeta');
+      const form = document.getElementById('publishForm');
+      const submitBtn = document.getElementById('submitBtn');
+
+      // Check for preselected examId from query string
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedExamId = urlParams.get('examId');
+
+      try {
+        const exams = await apiFetch('/exams');
+        if (!exams || exams.length === 0) {
+          examSelect.innerHTML = '<option value="">No exams found</option>';
+          submitBtn.disabled = true;
+          return;
+        }
+
+        examSelect.innerHTML = '<option value="">-- Select Exam to Publish Results --</option>' +
+          exams.map(e => `
+            <option value="${e.examId}" ${preselectedExamId && preselectedExamId == e.examId ? 'selected' : ''}>
+              ${escapeHtml(e.examCode)} &bull; ${escapeHtml(e.examTitle)} (${escapeHtml(e.status || 'Active')})
+            </option>
+          `).join('');
+
+        const updateMeta = () => {
+          const selectedId = examSelect.value;
+          const found = exams.find(e => e.examId == selectedId);
+          if (found) {
+            examMeta.innerHTML = `<strong>${escapeHtml(found.examTitle)}</strong> &bull; Total Marks: ${found.totalMarks} | Passing: ${found.passingMarks} | Duration: ${found.durationMinutes}m`;
+          } else {
+            examMeta.innerHTML = '';
+          }
+        };
+
+        examSelect.addEventListener('change', updateMeta);
+        if (preselectedExamId) updateMeta();
+
+      } catch (err) {
+        examSelect.innerHTML = `<option value="">Error: ${escapeHtml(err.message)}</option>`;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const examId = examSelect.value;
+        if (!examId) {
+          showToast('Please select an exam first', 'warning');
+          return;
+        }
+
+        if (!confirm('Are you sure you want to publish all finalized marks for this exam? Students will immediately be notified and can view their scorecards.')) {
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Publishing...';
+
+        try {
+          const res = await apiFetch(`/exams/${examId}/results/publish-all`, {
+            method: 'POST',
+            body: JSON.stringify({ notify: document.getElementById('notifyCheck').checked })
+          });
+
+          showToast(res.message || 'Results published successfully!', 'success');
+          setTimeout(() => {
+            window.location.href = '/evaluation/results/list.html';
+          }, 1200);
+        } catch (err) {
+          showToast(err.message || 'Failed to publish results', 'danger');
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="bi bi-send-fill me-1"></i> Publish All Scorecards';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

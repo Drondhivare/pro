@@ -1,0 +1,107 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="/" class="sidebar-brand">
+      <i class="bi bi-mortarboard-fill"></i>
+      <span>MMCOE Exam</span>
+    </a>
+  </div>
+  
+  <div class="sidebar-nav">
+    {% if request.path.startswith('/student') %}
+      <!-- ================= STUDENT SIDEBAR ================= -->
+      <div class="nav-section-title">Student Portal</div>
+      <div class="nav-item">
+        <a href="/student/dashboard.html" class="nav-link {% if request.path == '/student/dashboard.html' %}active{% endif %}">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/student/exams/available.html" class="nav-link {% if '/exams/' in request.path %}active{% endif %}">
+          <i class="bi bi-journal-check"></i>
+          <span>Available Exams</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/student/results/list.html" class="nav-link {% if '/results/' in request.path %}active{% endif %}">
+          <i class="bi bi-trophy-fill"></i>
+          <span>My Results</span>
+        </a>
+      </div>
+
+    {% elif request.path.startswith('/faculty') or request.path.startswith('/questions') or request.path.startswith('/exams') or request.path.startswith('/evaluation') %}
+      <!-- ================= FACULTY SIDEBAR ================= -->
+      <div class="nav-section-title">Faculty Portal</div>
+      <div class="nav-item">
+        <a href="/faculty/dashboard.html" class="nav-link {% if request.path == '/faculty/dashboard.html' %}active{% endif %}">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/questions/list.html" class="nav-link {% if '/questions/' in request.path %}active{% endif %}">
+          <i class="bi bi-question-square-fill"></i>
+          <span>Question Bank</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/exams/list.html" class="nav-link {% if '/exams/' in request.path %}active{% endif %}">
+          <i class="bi bi-card-checklist"></i>
+          <span>Exam Management</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/evaluation/pending.html" class="nav-link {% if '/evaluation/' in request.path %}active{% endif %}">
+          <i class="bi bi-pencil-square"></i>
+          <span>Evaluations</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/subjects/list.html" class="nav-link {% if '/subjects/' in request.path %}active{% endif %}">
+          <i class="bi bi-book-fill"></i>
+          <span>Subjects</span>
+        </a>
+      </div>
+
+    {% else %}
+      <!-- ================= ADMIN SIDEBAR ================= -->
+      <div class="nav-section-title">Administrator Portal</div>
+      <div class="nav-item">
+        <a href="/admin/dashboard.html" class="nav-link {% if request.path == '/admin/dashboard.html' %}active{% endif %}">
+          <i class="bi bi-grid-1x2-fill"></i>
+          <span>Dashboard</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/admin/users/list.html" class="nav-link {% if '/users/' in request.path %}active{% endif %}">
+          <i class="bi bi-people-fill"></i>
+          <span>User Management</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/admin/roles/permissions.html" class="nav-link {% if '/roles/' in request.path %}active{% endif %}">
+          <i class="bi bi-shield-lock-fill"></i>
+          <span>RBAC Matrix</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/subjects/list.html" class="nav-link {% if '/subjects/' in request.path %}active{% endif %}">
+          <i class="bi bi-book-fill"></i>
+          <span>Subjects</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/admin/system/metrics.html" class="nav-link {% if '/metrics' in request.path %}active{% endif %}">
+          <i class="bi bi-cpu-fill"></i>
+          <span>System Health & Flags</span>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="/admin/system/backup.html" class="nav-link {% if '/backup' in request.path %}active{% endif %}">
+          <i class="bi bi-database-fill-gear"></i>
+          <span>Backup & Restore</span>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</aside>

@@ -1,0 +1,48 @@
+# Netlify Route Rewrites for Static Deployment
+/student/dashboard.html          /templates/student/dashboard.html          200
+/student/results/list.html       /templates/student/results/list.html       200
+/student/results/detail.html     /templates/student/results/detail.html     200
+/student/exams/available.html    /templates/student/exams/available.html    200
+/student/exams/registered.html   /templates/student/exams/registered.html   200
+
+/faculty/dashboard.html          /templates/faculty/dashboard.html          200
+/questions/list.html             /templates/questions/list.html             200
+/questions/create.html           /templates/questions/create.html           200
+/questions/edit.html             /templates/questions/edit.html             200
+/exams/list.html                 /templates/exams/list.html                 200
+/exams/create.html               /templates/exams/create.html               200
+/exams/edit.html                 /templates/exams/edit.html                 200
+/exams/detail.html               /templates/exams/detail.html               200
+/exams/schedule.html             /templates/exams/schedule.html             200
+/exams/questions/assign.html     /templates/exams/questions/assign.html     200
+/evaluation/pending.html         /templates/evaluation/pending.html         200
+/evaluation/evaluate.html        /templates/evaluation/evaluate.html        200
+/evaluation/results/list.html    /templates/evaluation/results/list.html    200
+/evaluation/results/publish.html /templates/evaluation/results/publish.html 200
+/subjects/list.html              /templates/subjects/list.html              200
+/subjects/create.html            /templates/subjects/create.html            200
+/subjects/edit.html              /templates/subjects/edit.html              200
+
+/admin/dashboard.html            /templates/admin/dashboard.html            200
+/admin/users/list.html           /templates/admin/users/list.html           200
+/admin/users/create.html         /templates/admin/users/create.html         200
+/admin/users/edit.html           /templates/admin/users/edit.html           200
+/admin/users/login_history.html  /templates/admin/users/login_history.html  200
+/admin/sessions/list.html        /templates/admin/sessions/list.html        200
+/admin/audit/list.html           /templates/admin/audit/list.html           200
+/admin/system/metrics.html       /templates/admin/system/metrics.html       200
+/admin/roles/permissions.html    /templates/admin/roles/permissions.html    200
+/reports/exam_report.html        /templates/reports/exam_report.html        200
+
+/exam_runtime/lobby.html         /templates/exam_runtime/lobby.html         200
+/exam_runtime/exam.html          /templates/exam_runtime/exam.html          200
+/exam_runtime/review.html        /templates/exam_runtime/review.html        200
+/exam_runtime/submitted.html     /templates/exam_runtime/submitted.html     200
+
+/auth/login.html                 /templates/auth/login.html                 200
+/auth/register.html              /templates/auth/register.html              200
+/auth/forgot_password.html       /templates/auth/forgot_password.html       200
+/auth/reset_password.html        /templates/auth/reset_password.html        200
+/notifications/center.html       /templates/notifications/center.html       200
+
+/*                               /templates/auth/login.html                 200

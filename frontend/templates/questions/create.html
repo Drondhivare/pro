@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Question - Question Bank Repository</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link active">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link ">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link ">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link ">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search questions...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Dr. Rajesh Sharma</span>
+                <span class="user-role">Faculty (ID: 2)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/questions/list.html">Question Bank</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create Question</li>
+          </ol>
+        </nav>
+
+        <div class="mb-4">
+          <h3 class="fw-bold m-0">Create New Question Definition</h3>
+          <p class="text-muted small m-0">Add normalized questions and dynamic options (Question & QuestionOption schema)</p>
+        </div>
+
+        <div class="glass-card p-4 p-md-5" style="max-width: 850px;">
+          <form id="createQuestionForm">
+            
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Question Category</label>
+                <div class="input-group">
+                  <select class="form-select form-control-custom" id="categorySelect" required>
+                    <option value="">Loading categories...</option>
+                  </select>
+                  <button type="button" class="btn btn-outline-info" id="btnAddCategoryBtn" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                    <i class="bi bi-plus-lg"></i> Add Category
+                  </button>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label small fw-semibold">Difficulty Level</label>
+                <select class="form-select form-control-custom" id="difficultySelect" required>
+                  <option value="">Loading difficulties...</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold">Question Type</label>
+                <select class="form-select form-control-custom" id="qTypeSelect" onchange="toggleOptionSection()">
+                  <option value="MCQ">MCQ (Single Choice)</option>
+                  <option value="MSQ">MSQ (Multiple Choice)</option>
+                  <option value="TRUE_FALSE">True / False</option>
+                  <option value="DESCRIPTIVE">Descriptive Essay</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold">Default Marks</label>
+                <input type="number" id="defaultMarks" class="form-control form-control-custom" value="1.00" step="0.5" min="0.5" required>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label small fw-semibold">Estimated Time (Seconds)</label>
+                <input type="number" id="estimatedTime" class="form-control form-control-custom" value="60" min="10" required>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label small fw-semibold">Question Statement</label>
+              <textarea id="questionText" class="form-control form-control-custom" rows="3" placeholder="Enter question statement..." required></textarea>
+            </div>
+
+            <!-- Dedicated Model Answer / Expected Answer for DESCRIPTIVE questions -->
+            <div id="modelAnswerWrapper" class="mb-4 d-none">
+              <label class="form-label small fw-semibold">
+                Model Answer / Expected Answer <span class="text-danger">*</span>
+              </label>
+              <textarea id="modelAnswer" class="form-control form-control-custom" rows="5" placeholder="Enter the expected/model answer for this descriptive question..."></textarea>
+            </div>
+
+            <!-- Dynamic QuestionOption Container -->
+            <div id="optionsWrapper" class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label small fw-semibold m-0">
+                  <i class="bi bi-list-task me-1 text-info"></i> Options List
+                </label>
+                <button type="button" class="btn btn-sm btn-outline-info" id="btnAddOption" onclick="addQuestionOption()">
+                  <i class="bi bi-plus-lg"></i> Add Option
+                </button>
+              </div>
+
+              <div id="optionsContainer">
+                <!-- Option rows added dynamically -->
+              </div>
+            </div>
+
+            <div id="explanationWrapper" class="mb-4">
+              <label class="form-label small fw-semibold">Solution Explanation</label>
+              <textarea id="explanation" class="form-control form-control-custom" rows="2" placeholder="Optional explanation for correct answer..."></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" id="btnSaveQuestion" class="btn btn-primary-custom px-4 py-2">
+                <i class="bi bi-save-fill me-1"></i> Save Question
+              </button>
+              <a href="/questions/list.html" class="btn btn-outline-secondary px-4 py-2">Cancel</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal: Add New Question Category -->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+              <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold" id="addCategoryModalLabel">Add New Question Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-4">
+                <div id="modalCategoryError" class="alert alert-danger d-none py-2 px-3 small mb-3"></div>
+                <form id="addCategoryForm" onsubmit="handleCreateCategory(event)">
+                  <div class="mb-3">
+                    <label class="form-label small fw-semibold">Category Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-custom" id="modalCategoryName" placeholder="e.g., Database Systems" required>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label small fw-semibold">Description</label>
+                    <textarea class="form-control form-control-custom" id="modalCategoryDesc" rows="3" placeholder="Optional category description..."></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer border-top bg-light">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary-custom" id="btnSubmitCategory" onclick="handleCreateCategory(event)">Create Category</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    let currentQuestionType = 'MCQ';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth('Faculty', 'Admin');
+      if (!user) return;
+
+      await loadDropdowns();
+      buildDefaultOptions();
+      setupSingleChoiceHandler();
+    });
+
+    async function loadDropdowns(selectedCategoryId = null) {
+      try {
+        const [catRes, diffRes] = await Promise.all([
+          apiFetch('/question-categories'),
+          apiFetch('/difficulty-levels')
+        ]);
+
+        const cats = Array.isArray(catRes) ? catRes : (catRes && typeof catRes.json === 'function' ? await catRes.json() : catRes);
+        const diffs = Array.isArray(diffRes) ? diffRes : (diffRes && typeof diffRes.json === 'function' ? await diffRes.json() : diffRes);
+
+        const catSelect = document.getElementById('categorySelect');
+        const prevCatVal = selectedCategoryId !== null ? String(selectedCategoryId) : catSelect.value;
+        if (Array.isArray(cats)) {
+          if (cats.length === 0) {
+            catSelect.innerHTML = '<option value="">No categories available - click Add Category</option>';
+          } else {
+            catSelect.innerHTML = cats.map(c => `<option value="${c.categoryId}">${escapeHtml(c.categoryName)}</option>`).join('');
+            if (prevCatVal && cats.some(c => String(c.categoryId) === String(prevCatVal))) {
+              catSelect.value = prevCatVal;
+            } else if (cats.length > 0) {
+              catSelect.value = cats[0].categoryId;
+            }
+          }
+        }
+
+        const diffSelect = document.getElementById('difficultySelect');
+        const prevDiffVal = diffSelect.value;
+        if (Array.isArray(diffs)) {
+          if (diffs.length === 0) {
+            diffSelect.innerHTML = '<option value="">No difficulty levels available</option>';
+          } else {
+            diffSelect.innerHTML = diffs.map(d => `<option value="${d.difficultyLevelId}">${escapeHtml(d.levelName)}</option>`).join('');
+            if (prevDiffVal && diffs.some(d => String(d.difficultyLevelId) === String(prevDiffVal))) {
+              diffSelect.value = prevDiffVal;
+            } else if (diffs.length > 0) {
+              diffSelect.value = diffs[0].difficultyLevelId;
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error loading dropdowns:', err);
+        showToast('Failed to load categories or difficulty levels', 'danger');
+      }
+    }
+
+    async function handleCreateCategory(e) {
+      if (e) e.preventDefault();
+
+      const nameInput = document.getElementById('modalCategoryName');
+      const descInput = document.getElementById('modalCategoryDesc');
+      const errorBox = document.getElementById('modalCategoryError');
+      const btn = document.getElementById('btnSubmitCategory');
+
+      const categoryName = nameInput.value.trim();
+      const description = descInput.value.trim();
+
+      errorBox.classList.add('d-none');
+      errorBox.textContent = '';
+
+      if (!categoryName) {
+        errorBox.textContent = 'Category Name is required.';
+        errorBox.classList.remove('d-none');
+        nameInput.focus();
+        return;
+      }
+
+      if (categoryName.length < 3) {
+        errorBox.textContent = 'Category Name must be at least 3 characters.';
+        errorBox.classList.remove('d-none');
+        nameInput.focus();
+        return;
+      }
+
+      // Check if already present in dropdown (case-insensitive)
+      const existingSelect = document.getElementById('categorySelect');
+      const alreadyExists = Array.from(existingSelect.options).some(
+        opt => opt.text.trim().toLowerCase() === categoryName.toLowerCase()
+      );
+      if (alreadyExists) {
+        errorBox.textContent = `A category named "${categoryName}" already exists.`;
+        errorBox.classList.remove('d-none');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Creating...';
+
+      try {
+        const res = await apiFetch('/question-categories', {
+          method: 'POST',
+          body: JSON.stringify({ categoryName, description: description || null })
+        });
+
+        const newCatId = res && res.categoryId ? res.categoryId : null;
+
+        // Hide modal
+        const modalEl = document.getElementById('addCategoryModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modalInstance.hide();
+
+        // Reload dropdown and select new category
+        await loadDropdowns(newCatId);
+
+        showToast('Category created successfully.', 'success');
+
+        // Clear fields
+        nameInput.value = '';
+        descInput.value = '';
+        errorBox.classList.add('d-none');
+      } catch (err) {
+        console.error('Error creating category:', err);
+        const msg = (err.data && (err.data.error || err.data.message)) || err.message || 'Failed to create category.';
+        errorBox.textContent = msg;
+        errorBox.classList.remove('d-none');
+        showToast(msg, 'danger');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Create Category';
+      }
+    }
+
+    const form = document.getElementById('createQuestionForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById('btnSaveQuestion');
+      const resetBtn = () => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-save-fill me-1"></i> Save Question';
+      };
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
+
+      const catSelect = document.getElementById('categorySelect');
+      const categoryIdVal = catSelect.value;
+      const categoryId = parseInt(categoryIdVal, 10);
+      if (!categoryIdVal || isNaN(categoryId)) {
+        showToast('Please select a valid question category.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const diffSelect = document.getElementById('difficultySelect');
+      const diffIdVal = diffSelect.value;
+      const difficultyLevelId = parseInt(diffIdVal, 10);
+      if (!diffIdVal || isNaN(difficultyLevelId)) {
+        showToast('Please select a valid difficulty level.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const qType = document.getElementById('qTypeSelect').value;
+      if (!qType) {
+        showToast('Please select a question type.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const questionText = document.getElementById('questionText').value.trim();
+      if (!questionText) {
+        showToast('Question statement cannot be empty.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const defaultMarks = parseFloat(document.getElementById('defaultMarks').value);
+      if (isNaN(defaultMarks) || defaultMarks <= 0) {
+        showToast('Default Marks must be a positive number.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const estimatedTimeSeconds = parseInt(document.getElementById('estimatedTime').value, 10);
+      if (isNaN(estimatedTimeSeconds) || estimatedTimeSeconds <= 0) {
+        showToast('Estimated Time must be a positive number of seconds.', 'warning');
+        resetBtn();
+        return;
+      }
+
+      const options = [];
+      let modelAnswerText = null;
+
+      if (qType === 'DESCRIPTIVE') {
+        modelAnswerText = document.getElementById('modelAnswer').value.trim();
+        if (!modelAnswerText) {
+          showToast('Model Answer / Expected Answer is required for descriptive questions.', 'warning');
+          resetBtn();
+          return;
+        }
+      } else {
+        const rows = document.querySelectorAll('#optionsContainer .option-row');
+        for (let i = 0; i < rows.length; i++) {
+          const row = rows[i];
+          const textInput = row.querySelector('.option-text, .option-text-input');
+          const correctCheck = row.querySelector('.option-correct, .option-correct-check');
+          const text = textInput ? textInput.value.trim() : '';
+          const isCorrect = correctCheck ? correctCheck.checked : false;
+
+          if (!text) {
+            showToast(`Option ${String.fromCharCode(65 + i)} text cannot be blank.`, 'warning');
+            resetBtn();
+            return;
+          }
+
+          options.push({
+            optionText: text,
+            isCorrect: isCorrect,
+            optionOrder: i + 1
+          });
+        }
+
+        if (qType === 'MCQ') {
+          if (options.length < 2) {
+            showToast('MCQ questions must have at least 2 options.', 'warning');
+            resetBtn();
+            return;
+          }
+          const correctCount = options.filter(o => o.isCorrect).length;
+          if (correctCount !== 1) {
+            showToast('MCQ questions must have exactly 1 correct option selected.', 'warning');
+            resetBtn();
+            return;
+          }
+        } else if (qType === 'MSQ') {
+          if (options.length < 2) {
+            showToast('MSQ questions must have at least 2 options.', 'warning');
+            resetBtn();
+            return;
+          }
+          const correctCount = options.filter(o => o.isCorrect).length;
+          if (correctCount < 1) {
+            showToast('MSQ questions must have at least 1 correct option selected.', 'warning');
+            resetBtn();
+            return;
+          }
+        } else if (qType === 'TRUE_FALSE') {
+          if (options.length !== 2) {
+            showToast('True/False questions must have exactly 2 options.', 'warning');
+            resetBtn();
+            return;
+          }
+          const texts = options.map(o => o.optionText.trim().toLowerCase());
+          if (!texts.includes('true') || !texts.includes('false')) {
+            showToast('True/False options must be "True" and "False".', 'warning');
+            resetBtn();
+            return;
+          }
+          const correctCount = options.filter(o => o.isCorrect).length;
+          if (correctCount !== 1) {
+            showToast('True/False questions must have exactly 1 correct option selected.', 'warning');
+            resetBtn();
+            return;
+          }
+        }
+      }
+
+      const payload = {
+        categoryId: categoryId,
+        difficultyLevelId: difficultyLevelId,
+        questionType: qType,
+        questionText: questionText,
+        defaultMarks: defaultMarks,
+        estimatedTimeSeconds: estimatedTimeSeconds,
+        explanation: qType === 'DESCRIPTIVE' ? null : (document.getElementById('explanation').value.trim() || null),
+        modelAnswer: modelAnswerText,
+        correctAnswer: modelAnswerText,
+        options: options
+      };
+
+      try {
+        const res = await apiFetch('/questions', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        showToast('Question created successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = '/questions/list.html';
+        }, 500);
+      } catch (err) {
+        console.error('Error saving question:', err);
+        const msg = (err.data && (err.data.error || err.data.message)) || err.message || 'Failed to create question.';
+        alert('Error saving question: ' + msg);
+        resetBtn();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Exam - MMCOE Faculty Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+        <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="sidebar-brand">
+          <i class="bi bi-mortarboard-fill"></i>
+          <span>MMCOE Exam</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Faculty Portal</div>
+        <div class="nav-item">
+          <a href="/faculty/dashboard.html" class="nav-link ">
+            <i class="bi bi-grid-1x2-fill"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/questions/list.html" class="nav-link ">
+            <i class="bi bi-question-square-fill"></i>
+            <span>Question Bank</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/exams/list.html" class="nav-link active">
+            <i class="bi bi-card-checklist"></i>
+            <span>Exam Management</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/evaluation/pending.html" class="nav-link ">
+            <i class="bi bi-pencil-square"></i>
+            <span>Evaluations</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/subjects/list.html" class="nav-link ">
+            <i class="bi bi-book-fill"></i>
+            <span>Subjects</span>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="/reports/exam_report.html" class="nav-link ">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Analytics</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="top-navbar">
+        <div class="navbar-search">
+          <i class="bi bi-search"></i>
+          <input type="text" placeholder="Search exams...">
+        </div>
+        <div class="navbar-actions">
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown me-2">
+            <button class="icon-btn" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+              <i class="bi bi-bell-fill"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end shadow border bg-white p-0 mt-2" style="width: 340px;" aria-labelledby="notifDropdown">
+              <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+                <h6 class="m-0 fw-bold text-dark">Notifications</h6>
+                <span class="badge bg-primary rounded-pill">3 New</span>
+              </div>
+              <div class="list-group list-group-flush small" style="max-height: 280px; overflow-y: auto;">
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-info"><i class="bi bi-award me-1"></i> Result Published</strong>
+                    <small class="text-muted">10m ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Your result for DBMS Mid-Term Assessment is now available.</p>
+                </a>
+                <a href="/notifications/center.html" class="list-group-item list-group-item-action p-3">
+                  <div class="d-flex w-100 justify-content-between mb-1">
+                    <strong class="text-warning"><i class="bi bi-clock me-1"></i> Exam Reminder</strong>
+                    <small class="text-muted">1h ago</small>
+                  </div>
+                  <p class="mb-1 text-muted">Full Stack Web Development exam starts in 2 hours.</p>
+                </a>
+              </div>
+              <div class="p-2 text-center border-top">
+                <a href="/notifications/center.html" class="text-decoration-none small text-info fw-semibold">View All Notifications</a>
+              </div>
+            </div>
+          </div>
+          <!-- User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="user-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="avatar" style="background: var(--mmcoe-navy);">F</div>
+              <div class="user-info">
+                <span class="user-name">Dr. Rajesh Sharma</span>
+                <span class="user-role">Faculty (ID: 2)</span>
+              </div>
+              <i class="bi bi-chevron-down ms-1 text-muted" style="font-size: 0.75rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end shadow border mt-2">
+              <li><a class="dropdown-item text-danger" href="/auth/login.html"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Breadcrumbs -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/exams/list.html">Exam Management</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create Exam</li>
+          </ol>
+        </nav>
+
+        <div class="mb-4">
+          <h3 class="fw-bold m-0">Design & Schedule Examination</h3>
+          <p class="text-muted small m-0">Configure exam master definition (Exam) and schedule parameters (ExamSchedule)</p>
+        </div>
+
+        <div class="glass-card p-4 p-md-5" style="max-width: 900px;">
+          <ul class="nav nav-pills nav-justified mb-4 bg-dark p-1 rounded border" id="examWizardTabs">
+            <li class="nav-item">
+              <button class="nav-link active fw-semibold" id="tab1-btn" onclick="switchStep(1)">1. Basic Details</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link fw-semibold text-muted" id="tab2-btn" onclick="switchStep(2)">2. Scoring & Rules</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link fw-semibold text-muted" id="tab3-btn" onclick="switchStep(3)">3. Schedule & Entry</button>
+            </li>
+          </ul>
+
+          <form id="createExamForm" novalidate>
+            
+            <!-- Step 1 -->
+            <div id="step-1">
+              <h5 class="fw-bold mb-3 text-info"><i class="bi bi-info-circle me-2"></i>Step 1: General Examination Information</h5>
+              
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Subject</label>
+                  <select class="form-select form-control-custom" id="examSubjectSelect" required>
+                    <option value="">Loading subjects...</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Exam Code</label>
+                  <input type="text" class="form-control form-control-custom" id="examCode" placeholder="e.g. EXAM-CS101-FINAL" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Exam Title</label>
+                <input type="text" class="form-control form-control-custom" id="examTitle" placeholder="e.g. Final Semester Assessment" required>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Assessment Type</label>
+                  <select class="form-select form-control-custom" id="examType">
+                    <option value="OBJECTIVE">OBJECTIVE (MCQ / MSQ)</option>
+                    <option value="SUBJECTIVE">SUBJECTIVE (Descriptive)</option>
+                    <option value="MIXED">MIXED (Objective + Descriptive)</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Duration (Minutes)</label>
+                  <input type="number" class="form-control form-control-custom" id="durationMinutes" value="60" min="5" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Initial Status</label>
+                  <select class="form-select form-control-custom" id="examStatus">
+                    <option value="DRAFT">DRAFT</option>
+                    <option value="PUBLISHED" selected>PUBLISHED</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Examination Instructions</label>
+                <textarea class="form-control form-control-custom" id="instructions" rows="3" placeholder="Enter student instructions...">1. Maintain uninterrupted internet connectivity. 2. Auto-submit will trigger upon countdown expiry.</textarea>
+              </div>
+
+              <div class="text-end">
+                <button type="button" class="btn btn-primary-custom" onclick="switchStep(2)">Next: Scoring & Rules &rarr;</button>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step-2" class="d-none">
+              <h5 class="fw-bold mb-3 text-info"><i class="bi bi-sliders me-2"></i>Step 2: Scoring, Negative Marking & Shuffling</h5>
+              
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Total Marks</label>
+                  <input type="number" class="form-control form-control-custom" id="totalMarks" value="100.00" step="0.5" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Passing Marks</label>
+                  <input type="number" class="form-control form-control-custom" id="passingMarks" value="40.00" step="0.5" required>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label small fw-semibold">Maximum Attempts</label>
+                  <input type="number" class="form-control form-control-custom" id="maximumAttempts" value="1" min="1" required>
+                </div>
+              </div>
+
+              <div class="p-3 rounded border section-bg mb-4">
+                <h6 class="fw-bold text-dark small mb-3">Integrity & Negative Marking Rules</h6>
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" id="shuffleQ" checked>
+                  <label class="form-check-label small text-muted" for="shuffleQ">Shuffle Question Order for Each Student</label>
+                </div>
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" id="shuffleOpt" checked>
+                  <label class="form-check-label small text-muted" for="shuffleOpt">Shuffle Option Choice Order (A/B/C/D)</label>
+                </div>
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" type="checkbox" id="negMarkingToggle">
+                  <label class="form-check-label small text-muted" for="negMarkingToggle">Enable Negative Marking</label>
+                </div>
+                <div class="mt-2" style="max-width: 250px;">
+                  <label class="form-label small text-muted">Negative Marks Per Wrong Question</label>
+                  <input type="number" class="form-control form-control-custom" id="negativeMarksValue" value="0.00" step="0.25">
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" onclick="switchStep(1)">&larr; Back</button>
+                <button type="button" class="btn btn-primary-custom" onclick="switchStep(3)">Next: Schedule & Entry &rarr;</button>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step-3" class="d-none">
+              <h5 class="fw-bold mb-3 text-info"><i class="bi bi-calendar-check me-2"></i>Step 3: Exam Schedule Parameters</h5>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Exam Start Time</label>
+                  <input type="datetime-local" class="form-control form-control-custom" id="scheduleStartTime" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Exam End Time</label>
+                  <input type="datetime-local" class="form-control form-control-custom" id="scheduleEndTime" required>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Registration Start</label>
+                  <input type="datetime-local" class="form-control form-control-custom" id="regStartTime">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Registration End</label>
+                  <input type="datetime-local" class="form-control form-control-custom" id="regEndTime">
+                </div>
+              </div>
+
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label small fw-semibold">Late Entry Allowance (Minutes)</label>
+                  <input type="number" class="form-control form-control-custom" id="lateEntryMinutes" value="15" min="0">
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                  <div class="form-check form-switch mt-4">
+                    <input class="form-check-input" type="checkbox" id="autoSubmitCheck" checked>
+                    <label class="form-check-label small text-muted" for="autoSubmitCheck">Auto-Submit Answers Upon Timer Expiry</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between border-top pt-3">
+                <button type="button" class="btn btn-outline-secondary" onclick="switchStep(2)">&larr; Back</button>
+                <button type="submit" id="btnSubmitExamForm" class="btn btn-success px-4 py-2 fw-bold">
+                  <i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = Auth.requireAuth('Faculty', 'Admin');
+      if (!user) return;
+
+      await loadSubjectsDropdown();
+
+      // Pre-fill default schedule times (now + 1 day)
+      const now = new Date();
+      const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const toIsoStringLocal = (d) => {
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      };
+      document.getElementById('scheduleStartTime').value = toIsoStringLocal(now);
+      document.getElementById('scheduleEndTime').value = toIsoStringLocal(nextWeek);
+    });
+
+    async function loadSubjectsDropdown() {
+      try {
+        const res = await apiFetch('/subjects');
+        if (res.ok) {
+          const subjects = await res.json();
+          const select = document.getElementById('examSubjectSelect');
+          select.innerHTML = subjects.map(s => `<option value="${s.subjectId}">${escapeHtml(s.subjectCode)} - ${escapeHtml(s.subjectName)}</option>`).join('');
+        }
+      } catch (err) {
+        console.error('Error loading subjects for exam:', err);
+      }
+    }
+
+    function switchStep(stepNum) {
+      document.getElementById('step-1').classList.add('d-none');
+      document.getElementById('step-2').classList.add('d-none');
+      document.getElementById('step-3').classList.add('d-none');
+
+      document.querySelectorAll('#examWizardTabs button').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-muted');
+      });
+
+      document.getElementById(`step-${stepNum}`).classList.remove('d-none');
+      const activeBtn = document.getElementById(`tab${stepNum}-btn`);
+      activeBtn.classList.add('active');
+      activeBtn.classList.remove('text-muted');
+    }
+
+    const form = document.getElementById('createExamForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById('btnSubmitExamForm');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Creating Exam...';
+
+      // --- Explicit validation across all steps (required because form has novalidate) ---
+      const subjectId = parseInt(document.getElementById('examSubjectSelect').value, 10);
+      const examCode = document.getElementById('examCode').value.trim();
+      const examTitle = document.getElementById('examTitle').value.trim();
+      const startTime = document.getElementById('scheduleStartTime').value;
+      const endTime = document.getElementById('scheduleEndTime').value;
+
+      if (!subjectId || isNaN(subjectId)) {
+        alert('Please select a Subject (Step 1).');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+        return;
+      }
+      if (!examCode) {
+        alert('Please enter an Exam Code (Step 1).');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+        return;
+      }
+      if (!examTitle) {
+        alert('Please enter an Exam Title (Step 1).');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+        return;
+      }
+      if (!startTime) {
+        alert('Please set the Exam Start Time (Step 3).');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+        return;
+      }
+      if (!endTime) {
+        alert('Please set the Exam End Time (Step 3).');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+        return;
+      }
+      // ---------------------------------------------------------------------------------
+
+      const examPayload = {
+        subjectId: subjectId,
+        examCode: examCode,
+        examTitle: examTitle,
+        examType: document.getElementById('examType').value,
+        durationMinutes: parseInt(document.getElementById('durationMinutes').value, 10) || 60,
+        examStatus: document.getElementById('examStatus').value,
+        instructions: document.getElementById('instructions').value.trim(),
+        totalMarks: parseFloat(document.getElementById('totalMarks').value) || 100.0,
+        passingMarks: parseFloat(document.getElementById('passingMarks').value) || 40.0,
+        maximumAttempts: parseInt(document.getElementById('maximumAttempts').value, 10) || 1,
+        shuffleQuestions: document.getElementById('shuffleQ').checked,
+        shuffleOptions: document.getElementById('shuffleOpt').checked,
+        negativeMarking: document.getElementById('negMarkingToggle').checked,
+        negativeMarksPerQuestion: parseFloat(document.getElementById('negativeMarksValue').value) || 0.0
+      };
+
+      try {
+        const examRes = await apiFetch('/exams', {
+          method: 'POST',
+          body: JSON.stringify(examPayload)
+        });
+
+        if (!examRes.ok) {
+          const err = await examRes.json();
+          alert(err.error || 'Failed to create exam.');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+          return;
+        }
+
+        const examData = await examRes.json();
+        const examId = examData.examId;
+
+        // Create schedule (startTime/endTime already validated above)
+        if (startTime && endTime) {
+          const schedulePayload = {
+            startTime: startTime.replace('T', ' ') + ':00',
+            endTime: endTime.replace('T', ' ') + ':00',
+            registrationStart: document.getElementById('regStartTime').value ? document.getElementById('regStartTime').value.replace('T', ' ') + ':00' : null,
+            registrationEnd: document.getElementById('regEndTime').value ? document.getElementById('regEndTime').value.replace('T', ' ') + ':00' : null,
+            lateEntryMinutes: parseInt(document.getElementById('lateEntryMinutes').value, 10) || 0,
+            autoSubmit: document.getElementById('autoSubmitCheck').checked
+          };
+
+          const scheduleRes = await apiFetch(`/exams/${examId}/schedule`, {
+            method: 'POST',
+            body: JSON.stringify(schedulePayload)
+          });
+          // scheduleRes is the parsed JSON data on success; apiFetch throws on error
+        }
+
+        showToast('Exam created and scheduled successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = `/exams/detail.html?id=${examId}`;
+        }, 500);
+
+      } catch (err) {
+        console.error('Error saving exam:', err);
+        alert('Error: ' + err.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Finalize & Create Exam';
+      }
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
+</body>
+</html>
